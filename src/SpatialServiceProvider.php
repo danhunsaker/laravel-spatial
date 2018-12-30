@@ -53,6 +53,7 @@ class SpatialServiceProvider extends DatabaseServiceProvider
                 'multipoint' => MultiPoint::class,
                 'multilinestring' => MultiLineString::class,
                 'multipolygon' => MultiPolygon::class,
+                'geomcollection' => GeometryCollection::class,
                 'geometrycollection' => GeometryCollection::class,
             ];
             $typeNames = array_keys(Type::getTypesMap());
