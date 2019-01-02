@@ -41,7 +41,7 @@ class ClassFinder
             if ($this->tokenIsNamespace($token)) {
                 $namespace = $this->getNamespace($key + 2, $tokens);
             } elseif ($this->tokenIsClassOrInterface($token)) {
-                return ltrim($namespace.'\\'.$this->getClass($key + 2, $tokens), '\\');
+                return ltrim($namespace . '\\' . $this->getClass($key + 2, $tokens), '\\');
             }
         }
     }

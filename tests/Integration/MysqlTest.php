@@ -24,7 +24,7 @@ class MysqlTest extends BaseTestCase
      */
     public function createApplication()
     {
-        $app = require __DIR__.'/../../vendor/laravel/laravel/bootstrap/app.php';
+        $app = require __DIR__ . '/../../vendor/laravel/laravel/bootstrap/app.php';
         $app->register(SpatialServiceProvider::class);
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
@@ -57,7 +57,7 @@ class MysqlTest extends BaseTestCase
 
         $this->after_fix = $this->isMySQL8AfterFix();
 
-        $this->onMigrations(function ($migrationClass) {
+        $this->onMigrations(function($migrationClass) {
             (new $migrationClass())->up();
         });
 
@@ -68,7 +68,7 @@ class MysqlTest extends BaseTestCase
 
     public function tearDown()
     {
-        $this->onMigrations(function ($migrationClass) {
+        $this->onMigrations(function($migrationClass) {
             (new $migrationClass())->down();
         }, true);
 
@@ -107,7 +107,7 @@ class MysqlTest extends BaseTestCase
         $fileSystem = new Filesystem();
         $classFinder = new Tools\ClassFinder();
 
-        $migrations = $fileSystem->files(__DIR__.'/Migrations');
+        $migrations = $fileSystem->files(__DIR__ . '/Migrations');
         $reverse_sort ? rsort($migrations, SORT_STRING) : sort($migrations, SORT_STRING);
 
         foreach ($migrations as $file) {
@@ -152,7 +152,7 @@ class MysqlTest extends BaseTestCase
         $geo = new GeometryModel();
 
         $geo->location = new Point([1, 2]);
-        $geo->shape = new Polygon([[[0, 10],[10, 10],[10, 0],[0, 0],[0, 10]]]);
+        $geo->shape = new Polygon([[[0, 10], [10, 10], [10, 0], [0, 0], [0, 10]]]);
         $geo->save();
         $this->assertDatabaseHas($geo->getTable(), ['id' => $geo->id]);
     }
@@ -174,8 +174,8 @@ class MysqlTest extends BaseTestCase
         $geo->location = new Point([1, 2]);
 
         $geo->multi_shapes = new MultiPolygon([
-            new Polygon([[[0, 10],[10, 10],[10, 0],[0, 0],[0, 10]]]),
-            new Polygon([[[0, 0],[0, 5],[5, 5],[5, 0],[0, 0]]]),
+            new Polygon([[[0, 10], [10, 10], [10, 0], [0, 0], [0, 10]]]),
+            new Polygon([[[0, 0], [0, 5], [5, 5], [5, 0], [0, 0]]]),
         ]);
         $geo->save();
         $this->assertDatabaseHas($geo->getTable(), ['id' => $geo->id]);
@@ -188,8 +188,8 @@ class MysqlTest extends BaseTestCase
         $geo->location = new Point([1, 2]);
 
         $geo->multi_geometries = new GeometryCollection([
-            new Polygon([[[0, 10],[10, 10],[10, 0],[0, 0],[0, 10]]]),
-            new Polygon([[[0, 0],[0, 5],[5, 5],[5, 0],[0, 0]]]),
+            new Polygon([[[0, 10], [10, 10], [10, 0], [0, 0], [0, 10]]]),
+            new Polygon([[[0, 0], [0, 5], [5, 5], [5, 0], [0, 0]]]),
             new Point([0, 0]),
         ]);
         $geo->save();

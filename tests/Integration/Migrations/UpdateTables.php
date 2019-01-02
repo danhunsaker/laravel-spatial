@@ -14,7 +14,7 @@ class UpdateLocationTable extends Migration
      */
     public function up()
     {
-        Schema::table('test_geometries', function (Blueprint $table) {
+        Schema::table('test_geometries', function(Blueprint $table) {
             // Make sure point is not nullable
             $table->point('location')->change();
 
@@ -34,7 +34,7 @@ class UpdateLocationTable extends Migration
             \DB::statement('ALTER TABLE test_geometries ENGINE = MyISAM');
         }
 
-        Schema::table('test_geometries', function (Blueprint $table) {
+        Schema::table('test_geometries', function(Blueprint $table) {
             // Add a spatial index on the location field
             $table->spatialIndex('location');
         });
@@ -47,7 +47,7 @@ class UpdateLocationTable extends Migration
      */
     public function down()
     {
-        Schema::table('test_geometries', function (Blueprint $table) {
+        Schema::table('test_geometries', function(Blueprint $table) {
             $table->dropSpatialIndex(['location']); // either an array of column names or the index name
         });
 
@@ -55,7 +55,7 @@ class UpdateLocationTable extends Migration
             \DB::statement('ALTER TABLE test_geometries ENGINE = InnoDB');
         }
 
-        Schema::table('test_geometries', function (Blueprint $table) {
+        Schema::table('test_geometries', function(Blueprint $table) {
             $table->point('location')->nullable()->change();
         });
     }

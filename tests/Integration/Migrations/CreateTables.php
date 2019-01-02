@@ -13,10 +13,10 @@ class CreateLocationTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_geometries', function (Blueprint $table) {
+        Schema::create('test_geometries', function(Blueprint $table) {
             $table->increments('id');
             $table->geometry('geo')->default(null)->nullable();
-            $table->point('location');  // required to be not null in order to add an index
+            $table->point('location'); // required to be not null in order to add an index
             $table->lineString('line')->default(null)->nullable();
             $table->polygon('shape')->default(null)->nullable();
             $table->multiPoint('multi_locations')->default(null)->nullable();
@@ -26,7 +26,7 @@ class CreateLocationTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('no_spatial_fields', function (Blueprint $table) {
+        Schema::create('no_spatial_fields', function(Blueprint $table) {
             $table->increments('id');
             $table->geometry('geometry')->default(null)->nullable();
         });
