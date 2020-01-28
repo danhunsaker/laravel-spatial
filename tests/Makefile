@@ -1,6 +1,6 @@
 mySrv=mysql
 
-oV=latest
+oV=5.7
 oDB_DIR=$(shell pwd)/_odb-$(oV)
 
 mV=10.3
