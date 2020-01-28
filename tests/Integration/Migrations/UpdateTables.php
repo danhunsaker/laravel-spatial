@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use LaravelSpatial\MysqlConnection;
 
@@ -29,9 +30,9 @@ class UpdateLocationTable extends Migration
 
         });
 
-        if (is_a(\DB::connection(), MysqlConnection::class)) {
+        if (is_a(DB::connection(), MysqlConnection::class)) {
             // MySQL < 5.7.5: table has to be MyISAM
-            \DB::statement('ALTER TABLE test_geometries ENGINE = MyISAM');
+            DB::statement('ALTER TABLE test_geometries ENGINE = MyISAM');
         }
 
         Schema::table('test_geometries', function(Blueprint $table) {
@@ -51,8 +52,8 @@ class UpdateLocationTable extends Migration
             $table->dropSpatialIndex(['location']); // either an array of column names or the index name
         });
 
-        if (is_a(\DB::connection(), MysqlConnection::class)) {
-            \DB::statement('ALTER TABLE test_geometries ENGINE = InnoDB');
+        if (is_a(DB::connection(), MysqlConnection::class)) {
+            DB::statement('ALTER TABLE test_geometries ENGINE = InnoDB');
         }
 
         Schema::table('test_geometries', function(Blueprint $table) {

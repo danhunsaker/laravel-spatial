@@ -22,11 +22,11 @@ use LaravelSpatial\Doctrine\Polygon;
 class SpatialServiceProvider extends DatabaseServiceProvider
 {
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
     public function register()
     {
         // The connection factory is used to create the actual connection instances on
@@ -56,9 +56,9 @@ class SpatialServiceProvider extends DatabaseServiceProvider
                 'geomcollection' => GeometryCollection::class,
                 'geometrycollection' => GeometryCollection::class,
             ];
-            $typeNames = array_keys(Type::getTypesMap());
+
             foreach ($geometries as $type => $class) {
-                if (!in_array($type, $typeNames)) {
+                if (!Type::hasType($type)) {
                     Type::addType($type, $class);
                 }
             }

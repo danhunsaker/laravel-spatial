@@ -1,19 +1,21 @@
 <?php
 
-abstract class BaseTestCase extends PHPUnit_Framework_TestCase
+namespace Tests\Unit;
+
+use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Class BaseTestCase
+ * @package Tests\Unit
+ */
+abstract class BaseTestCase extends TestCase
 {
-    public function tearDown()
+	use MockeryPHPUnitIntegration;
+
+    public function tearDown(): void
     {
         Mockery::close();
-    }
-
-    protected function assertException($exceptionName)
-    {
-        if (method_exists(parent::class, 'expectException')) {
-            parent::expectException($exceptionName);
-        } else {
-            /** @scrutinizer ignore-deprecated */
-            $this->setExpectedException($exceptionName);
-        }
     }
 }

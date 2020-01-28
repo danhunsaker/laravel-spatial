@@ -2,115 +2,95 @@
 
 namespace LaravelSpatial\Schema\Grammars;
 
+use Illuminate\Database\Schema\Grammars\PostgresGrammar as BasePostgresGrammar;
 use Illuminate\Support\Fluent;
-use LaravelSpatial\Schema\Blueprint;
+use Illuminate\Database\Schema\Blueprint;
 
-class PostgresGrammar extends \Illuminate\Database\Schema\Grammars\PostgresGrammar
+/**
+ * Class PostgresGrammar
+ *
+ * @package LaravelSpatial\Schema\Grammars
+ */
+class PostgresGrammar extends BasePostgresGrammar
 {
-    /**
-     * Adds a statement to add a point geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
-     */
-    public function typePoint(Fluent $column)
-    {
-        return 'GEOGRAPHY(POINT, 4326)';
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function typePoint(Fluent $column)
+	{
+		return parent::typePoint($column);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function typeMultiPoint(Fluent $column)
+	{
+		return parent::typeMultiPoint($column);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function typePolygon(Fluent $column)
+	{
+		return parent::typePolygon($column);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function typeMultiPolygon(Fluent $column)
+	{
+		return parent::typeMultiPolygon($column);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function typeLineString(Fluent $column)
+	{
+		return parent::typeLineString($column);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function typeMultiLineString(Fluent $column)
+	{
+		return parent::typeMultiLineString($column);
+	}
 
     /**
-     * Adds a statement to add a point geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
-     */
-    public function typeMultipoint(Fluent $column)
-    {
-        return 'GEOGRAPHY(MULTIPOINT, 4326)';
-    }
-
-    /**
-     * Adds a statement to add a polygon geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
-     */
-    public function typePolygon(Fluent $column)
-    {
-        return 'GEOGRAPHY(POLYGON, 4326)';
-    }
-
-    /**
-     * Adds a statement to add a multipolygon geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
-     */
-    public function typeMultipolygon(Fluent $column)
-    {
-        return 'GEOGRAPHY(MULTIPOLYGON, 4326)';
-    }
-
-    /**
-     * Adds a statement to add a linestring geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
-     */
-    public function typeLinestring(Fluent $column)
-    {
-        return 'GEOGRAPHY(LINESTRING, 4326)';
-    }
-
-    /**
-     * Adds a statement to add a multilinestring geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
-     */
-    public function typeMultilinestring(Fluent $column)
-    {
-        return 'GEOGRAPHY(MULTILINESTRING, 4326)';
-    }
-
-    /**
-     * Adds a statement to add a linestring geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
+     * @inheritDoc
      */
     public function typeGeography(Fluent $column)
     {
         return 'GEOGRAPHY';
     }
 
-    /**
-     * Adds a statement to add a geometry geometry column
-     *
-     * @param Fluent $column
-     * @return string
-     */
-    public function typeGeometry(Fluent $column)
-    {
-        return 'GEOGRAPHY(GEOMETRY, 4326)';
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function typeGeometry(Fluent $column)
+	{
+		return parent::typeGeometry( $column);
+	}
 
-    /**
-     * Adds a statement to add a geometrycollection geometry column
-     *
-     * @param Fluent $column
-     * @return string
-     */
-    public function typeGeometrycollection(Fluent $column)
-    {
-        return 'GEOGRAPHY(GEOMETRYCOLLECTION, 4326)';
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function typeGeometryCollection(Fluent $column)
+	{
+		return parent::typeGeometryCollection($column);
+	}
 
     /**
      * Adds a statement to create the postgis extension
      *
      * @param Blueprint $blueprint
      * @param Fluent $command
+     *
      * @return string
      */
     public function compileEnablePostgis(Blueprint $blueprint, Fluent $command)
