@@ -16,17 +16,17 @@ class MultiPoint extends Type
 {
     const MULTIPOINT = 'multipoint';
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-	    return GrammarFactory::make($platform->getName())->typeMultipoint(new Fluent);
+        return GrammarFactory::make($platform->getName())->typeMultipoint(new Fluent);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getName()
     {
         return self::MULTIPOINT;

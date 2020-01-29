@@ -9,43 +9,43 @@ use Illuminate\Support\Facades\DB;
  */
 class MysqlTest extends BaseIntegrationTest
 {
-	/**
-	 * Setup database specific configuration.
-	 *
-	 * @param \Illuminate\Contracts\Foundation\Application $app
-	 */
-	protected function setupDatabaseConfig($app): void
-	{
-		$host = env('MYSQL_HOST', env('DB_HOST', '127.0.0.1'));
+    /**
+     * Setup database specific configuration.
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     */
+    protected function setupDatabaseConfig($app): void
+    {
+        $host = env('MYSQL_HOST', env('DB_HOST', '127.0.0.1'));
 
-		/** @var \Illuminate\Contracts\Config\Repository $config */
-		$config = $app['config'];
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app['config'];
 
-		$config->set('database.default', 'mysql');
-		$config->set('database.connections.mysql.host', $host);
-		$config->set('database.connections.mysql.database', 'spatial_test');
-		$config->set('database.connections.mysql.username', 'root');
-		$config->set('database.connections.mysql.password', '');
-		$config->set('database.connections.mysql.modes', [
-			'ONLY_FULL_GROUP_BY',
-			'STRICT_TRANS_TABLES',
-			'NO_ZERO_IN_DATE',
-			'NO_ZERO_DATE',
-			'ERROR_FOR_DIVISION_BY_ZERO',
-			'NO_ENGINE_SUBSTITUTION',
-		]);
-	}
+        $config->set('database.default', 'mysql');
+        $config->set('database.connections.mysql.host', $host);
+        $config->set('database.connections.mysql.database', 'spatial_test');
+        $config->set('database.connections.mysql.username', 'root');
+        $config->set('database.connections.mysql.password', '');
+        $config->set('database.connections.mysql.modes', [
+            'ONLY_FULL_GROUP_BY',
+            'STRICT_TRANS_TABLES',
+            'NO_ZERO_IN_DATE',
+            'NO_ZERO_DATE',
+            'ERROR_FOR_DIVISION_BY_ZERO',
+            'NO_ENGINE_SUBSTITUTION',
+        ]);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function isMySQL8AfterFix()
-	{
-		$results = DB::select(DB::raw('select version()'));
-		$mysql_version = $results[0]->{'version()'};
+    /**
+     * @inheritDoc
+     */
+    protected function isMySQL8AfterFix()
+    {
+        $results = DB::select(DB::raw('select version()'));
+        $mysql_version = $results[0]->{'version()'};
 
-		return version_compare($mysql_version, '8.0.4', '>=');
-	}
+        return version_compare($mysql_version, '8.0.4', '>=');
+    }
 
     //public function testBounding() {
     //    $point = new Point([0, 0]);

@@ -16,17 +16,17 @@ class Point extends Type
 {
     const POINT = 'point';
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-	    return GrammarFactory::make($platform->getName())->typePoint(new Fluent);
+        return GrammarFactory::make($platform->getName())->typePoint(new Fluent);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getName()
     {
         return self::POINT;

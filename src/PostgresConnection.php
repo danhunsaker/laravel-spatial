@@ -10,10 +10,10 @@ use LaravelSpatial\Schema\PostgresBuilder;
  */
 class PostgresConnection extends \Illuminate\Database\PostgresConnection
 {
-	/**
-	 * @inheritDoc
-	 * @throws \Doctrine\DBAL\DBALException
-	 */
+    /**
+     * @inheritDoc
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
     {
         parent::__construct($pdo, $database, $tablePrefix, $config);
@@ -22,12 +22,12 @@ class PostgresConnection extends \Illuminate\Database\PostgresConnection
         $this->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('geography', 'string');
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSchemaBuilder()
     {
-        if ($this->schemaGrammar === NULL) {
+        if ($this->schemaGrammar === null) {
             $this->useDefaultSchemaGrammar();
         }
 

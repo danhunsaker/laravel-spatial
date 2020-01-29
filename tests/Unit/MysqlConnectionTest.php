@@ -11,9 +11,9 @@ use Tests\Unit\Stubs\PDOStub;
  */
 class MysqlConnectionTest extends TestCase
 {
-	/**
-	 * @var \LaravelSpatial\MysqlConnection
-	 */
+    /**
+     * @var \LaravelSpatial\MysqlConnection
+     */
     private $mysqlConnection;
 
     protected function setUp(): void
@@ -23,24 +23,24 @@ class MysqlConnectionTest extends TestCase
     }
 
     public function testRegistersTypes(): void
-	{
-		$types = [
-			'geometry',
-			'point',
-			'linestring',
-			'polygon',
-			'multipoint',
-			'multilinestring',
-			'multipolygon',
-			'geomcollection',
-			'geometrycollection',
-		];
+    {
+        $types = [
+            'geometry',
+            'point',
+            'linestring',
+            'polygon',
+            'multipoint',
+            'multilinestring',
+            'multipolygon',
+            'geomcollection',
+            'geometrycollection',
+        ];
 
-		$platform = $this->mysqlConnection->getDoctrineSchemaManager()->getDatabasePlatform();
+        $platform = $this->mysqlConnection->getDoctrineSchemaManager()->getDatabasePlatform();
 
-		foreach($types as $type){
-			$this->assertTrue($platform->hasDoctrineTypeMappingFor($type), sprintf('Platform should have mapping for %s.', $type));
-			$this->assertEquals('string',$platform->getDoctrineTypeMapping($type));
-		}
+        foreach ($types as $type) {
+            $this->assertTrue($platform->hasDoctrineTypeMappingFor($type), sprintf('Platform should have mapping for %s.', $type));
+            $this->assertEquals('string', $platform->getDoctrineTypeMapping($type));
+        }
     }
 }

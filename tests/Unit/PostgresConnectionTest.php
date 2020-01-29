@@ -12,9 +12,9 @@ use Tests\Unit\Stubs\PDOStub;
  */
 class PostgresConnectionTest extends TestCase
 {
-	/**
-	 * @var \LaravelSpatial\PostgresConnection
-	 */
+    /**
+     * @var \LaravelSpatial\PostgresConnection
+     */
     private $postgresConnection;
 
     protected function setUp(): void
@@ -24,17 +24,17 @@ class PostgresConnectionTest extends TestCase
     }
 
     public function testGetSchemaBuilder(): void
-	{
+    {
         $builder = $this->postgresConnection->getSchemaBuilder();
 
         $this->assertInstanceOf(PostgresBuilder::class, $builder);
     }
 
-	public function testRegistersTypes(): void
-	{
-		$platform = $this->postgresConnection->getDoctrineSchemaManager()->getDatabasePlatform();
+    public function testRegistersTypes(): void
+    {
+        $platform = $this->postgresConnection->getDoctrineSchemaManager()->getDatabasePlatform();
 
-		$this->assertTrue($platform->hasDoctrineTypeMappingFor('geography'),'Should have mapping for geography.');
-		$this->assertEquals($platform->getDoctrineTypeMapping('geography'),'string');
-	}
+        $this->assertTrue($platform->hasDoctrineTypeMappingFor('geography'), 'Should have mapping for geography.');
+        $this->assertEquals($platform->getDoctrineTypeMapping('geography'), 'string');
+    }
 }

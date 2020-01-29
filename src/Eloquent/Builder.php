@@ -14,21 +14,25 @@ use LaravelSpatial\Exceptions\SpatialParseException;
  */
 class Builder extends EloquentBuilder
 {
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function update(array $values)
     {
         foreach ($values as $key => &$value) {
             if ($value instanceof Geometry) {
-	            try {
-		            $wkt = geoPHP::load(json_decode(json_encode($value->jsonSerialize()), FALSE), 'json')
-		                         ->out('wkt');
-	            } catch (\Exception $e) {
-	            	throw new SpatialParseException(\sprintf('Unable to parse geometry data for column %s.',$key), 0, $e);
-	            }
+                try {
+                    $wkt = geoPHP::load(json_decode(json_encode($value->jsonSerialize()), false), 'json')
+                                 ->out('wkt');
+                } catch (\Exception $e) {
+                    throw new SpatialParseException(
+                        \sprintf('Unable to parse geometry data for column %s.', $key),
+                        0,
+                        $e
+                    );
+                }
 
-	            $value = $this->getQuery()->raw("ST_GeomFromText('{$wkt}')");
+                $value = $this->getQuery()->raw("ST_GeomFromText('{$wkt}')");
             }
         }
 

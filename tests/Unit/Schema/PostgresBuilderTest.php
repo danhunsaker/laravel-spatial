@@ -16,14 +16,14 @@ use Tests\Unit\BaseTestCase;
 class PostgresBuilderTest extends BaseTestCase
 {
     public function testReturnsCorrectBlueprint(): void
-	{
+    {
         $connection = Mockery::mock(PostgresConnection::class);
         $connection->shouldReceive('getSchemaGrammar')->once()->andReturn(null);
 
         /** @var PostgresBuilder|\Mockery\MockInterface $mock */
         $mock = Mockery::mock(PostgresBuilder::class, [$connection]);
         $mock->makePartial()->shouldAllowMockingProtectedMethods();
-        $blueprint = $mock->createBlueprint('test', function() {
+        $blueprint = $mock->createBlueprint('test', function () {
         });
 
         $this->assertInstanceOf(Blueprint::class, $blueprint);

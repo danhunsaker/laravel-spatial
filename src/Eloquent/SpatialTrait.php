@@ -44,14 +44,14 @@ trait SpatialTrait
      * protected $spatialFields = [];
      */
 
-	/**
-	 * @var array
-	 */
+    /**
+     * @var array
+     */
     public $geometries = [];
 
-	/**
-	 * @var array
-	 */
+    /**
+     * @var array
+     */
     protected $stRelations = [
         'Within',
         'Crosses',
@@ -67,7 +67,7 @@ trait SpatialTrait
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder $query
-	 *
+     *
      * @return \LaravelSpatial\Eloquent\Builder
      */
     public function newEloquentBuilder($query)
@@ -75,9 +75,9 @@ trait SpatialTrait
         return new Builder($query);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function setRawAttributes(array $attributes, $sync = false)
     {
         $spatial_fields = $this->getSpatialFields();
@@ -104,39 +104,39 @@ trait SpatialTrait
         return parent::setRawAttributes($attributes, $sync);
     }
 
-	/**
-	 * @return array
-	 */
-	public function getSpatialFields(): array
+    /**
+     * @return array
+     */
+    public function getSpatialFields(): array
     {
         if (property_exists($this, 'spatialFields') && !empty($this->spatialFields)) {
             return $this->spatialFields;
         }
 
-		throw new SpatialFieldsNotDefinedException(__CLASS__ . ' has to define $spatialFields');
-	}
+        throw new SpatialFieldsNotDefinedException(__CLASS__ . ' has to define $spatialFields');
+    }
 
-	/**
-	 * @param \GeoJSON\Geometry\Geometry $value
-	 *
-	 * @return string
-	 */
-	protected function toWkt(Geometry $value): string
-	{
-		try {
-			$wkt = geoPHP::load(json_decode(json_encode($value->jsonSerialize()), false), 'json')->out('wkt');
-		} catch (Exception $e) {
-			throw new SpatialParseException('Unable to data to geometry.', 0, $e);
-		}
+    /**
+     * @param \GeoJSON\Geometry\Geometry $value
+     *
+     * @return string
+     */
+    protected function toWkt(Geometry $value): string
+    {
+        try {
+            $wkt = geoPHP::load(json_decode(json_encode($value->jsonSerialize()), false), 'json')->out('wkt');
+        } catch (Exception $e) {
+            throw new SpatialParseException('Unable to data to geometry.', 0, $e);
+        }
 
-		return ($this->getConnection() instanceof PostgresConnection ? 'SRID=4326;' : '') . $wkt;
-	}
+        return ($this->getConnection() instanceof PostgresConnection ? 'SRID=4326;' : '') . $wkt;
+    }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 *
-	 * @return bool
-	 */
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return bool
+     */
     protected function performInsert(EloquentBuilder $query)
     {
         foreach ($this->attributes as $key => $value) {
@@ -155,13 +155,13 @@ trait SpatialTrait
         return $insert; // Return the result of the parent insert
     }
 
-	/**
-	 * @param $geometryColumn
-	 *
-	 * @return bool
-	 */
-	public function isColumnAllowed($geometryColumn): bool
-	{
+    /**
+     * @param $geometryColumn
+     *
+     * @return bool
+     */
+    public function isColumnAllowed($geometryColumn): bool
+    {
         if (!in_array($geometryColumn, $this->getSpatialFields(), true)) {
             throw new SpatialFieldsNotDefinedException(sprintf('%s is not a valid spatial column.', $geometryColumn));
         }
@@ -169,16 +169,16 @@ trait SpatialTrait
         return true;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 * @param $distance
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeDistance($query, $geometryColumn, $geometry, $distance): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     * @param $distance
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDistance($query, $geometryColumn, $geometry, $distance): EloquentBuilder
+    {
         if ($this->isColumnAllowed($geometryColumn)) {
             $geometryColumn .= $this->getConnection() instanceof PostgresConnection ? '::geometry' : '';
             $query->whereRaw("ST_Distance({$geometryColumn}, ST_GeomFromText(?)) <= ?", [
@@ -190,16 +190,16 @@ trait SpatialTrait
         return $query;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 * @param $distance
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeDistanceExcludingSelf($query, $geometryColumn, $geometry, $distance): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     * @param $distance
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDistanceExcludingSelf($query, $geometryColumn, $geometry, $distance): EloquentBuilder
+    {
         if ($this->isColumnAllowed($geometryColumn)) {
             $query = $this->scopeDistance($query, $geometryColumn, $geometry, $distance);
 
@@ -212,15 +212,15 @@ trait SpatialTrait
         return $query;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeDistanceValue($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDistanceValue($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         if ($this->isColumnAllowed($geometryColumn)) {
             $columns = $query->getQuery()->columns;
 
@@ -237,16 +237,16 @@ trait SpatialTrait
         return $query;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 * @param $distance
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeDistanceSphere($query, $geometryColumn, $geometry, $distance): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     * @param $distance
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDistanceSphere($query, $geometryColumn, $geometry, $distance): EloquentBuilder
+    {
         $distFunc = $this->getConnection() instanceof PostgresConnection ? 'ST_DistanceSphere' : 'ST_Distance_Sphere';
 
         if ($this->isColumnAllowed($geometryColumn)) {
@@ -260,16 +260,16 @@ trait SpatialTrait
         return $query;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 * @param $distance
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeDistanceSphereExcludingSelf($query, $geometryColumn, $geometry, $distance): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     * @param $distance
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDistanceSphereExcludingSelf($query, $geometryColumn, $geometry, $distance): EloquentBuilder
+    {
         $distFunc = $this->getConnection() instanceof PostgresConnection ? 'ST_DistanceSphere' : 'ST_Distance_Sphere';
 
         if ($this->isColumnAllowed($geometryColumn)) {
@@ -284,15 +284,15 @@ trait SpatialTrait
         return $query;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeDistanceSphereValue($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDistanceSphereValue($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         $distFunc = $this->getConnection() instanceof PostgresConnection ? 'ST_DistanceSphere' : 'ST_Distance_Sphere';
 
         if ($this->isColumnAllowed($geometryColumn)) {
@@ -311,16 +311,16 @@ trait SpatialTrait
         return $query;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 * @param $relationship
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeComparison($query, $geometryColumn, $geometry, $relationship): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     * @param $relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeComparison($query, $geometryColumn, $geometry, $relationship): EloquentBuilder
+    {
         if ($this->isColumnAllowed($geometryColumn)) {
             $relationship = ucfirst(strtolower($relationship));
 
@@ -337,99 +337,99 @@ trait SpatialTrait
         return $query;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $polygon
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeWithin($query, $geometryColumn, $polygon): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $polygon
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithin($query, $geometryColumn, $polygon): EloquentBuilder
+    {
         return $this->scopeComparison($query, $geometryColumn, $polygon, 'within');
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeCrosses($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCrosses($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         return $this->scopeComparison($query, $geometryColumn, $geometry, 'crosses');
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeContains($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeContains($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         return $this->scopeComparison($query, $geometryColumn, $geometry, 'contains');
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeDisjoint($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDisjoint($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         return $this->scopeComparison($query, $geometryColumn, $geometry, 'disjoint');
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeEquals($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeEquals($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         return $this->scopeComparison($query, $geometryColumn, $geometry, 'equals');
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeIntersects($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIntersects($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         return $this->scopeComparison($query, $geometryColumn, $geometry, 'intersects');
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeOverlaps($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOverlaps($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         return $this->scopeComparison($query, $geometryColumn, $geometry, 'overlaps');
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param $geometryColumn
-	 * @param $geometry
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeDoesTouch($query, $geometryColumn, $geometry): EloquentBuilder
-	{
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param $geometryColumn
+     * @param $geometry
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDoesTouch($query, $geometryColumn, $geometry): EloquentBuilder
+    {
         return $this->scopeComparison($query, $geometryColumn, $geometry, 'touches');
     }
 }

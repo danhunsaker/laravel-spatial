@@ -10,24 +10,26 @@ use Illuminate\Database\Schema\Grammars\Grammar;
  * @package LaravelSpatial\Schema\Grammars
  * @internal
  */
-class GrammarFactory {
+class GrammarFactory
+{
 
-	/**
-	 * @param string $name
-	 *
-	 * @return \Illuminate\Database\Schema\Grammars\Grammar
-	 */
-	public static function make(string $name): Grammar {
-		switch($name){
-			case 'mysql':
-				return new MySqlGrammar();
-				break;
-			case 'postgresql':
-			case 'pg_sql':
-				return new PostgresGrammar();
-				break;
-		}
+    /**
+     * @param string $name
+     *
+     * @return \Illuminate\Database\Schema\Grammars\Grammar
+     */
+    public static function make(string $name): Grammar
+    {
+        switch ($name) {
+            case 'mysql':
+                return new MySqlGrammar();
+                break;
+            case 'postgresql':
+            case 'pg_sql':
+                return new PostgresGrammar();
+                break;
+        }
 
-		throw new \InvalidArgumentException(\sprintf('%s is not a supported grammar.', $name));
-	}
+        throw new \InvalidArgumentException(\sprintf('%s is not a supported grammar.', $name));
+    }
 }

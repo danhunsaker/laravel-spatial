@@ -17,7 +17,7 @@ use Tests\Unit\BaseTestCase;
 class PostgresGrammarTest extends BaseTestCase
 {
     public function testAddingPoint(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->point('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -27,7 +27,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testAddingLinestring(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->lineString('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -37,7 +37,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testAddingPolygon(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->polygon('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -47,7 +47,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testAddingMultipoint(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->multiPoint('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -57,7 +57,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testAddingMultiLinestring(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->multiLineString('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -67,7 +67,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testAddingMultiPolygon(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->multiPolygon('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -77,7 +77,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testAddingGeometry(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->geometry('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -87,7 +87,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testAddingGeometryCollection(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->geometryCollection('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -97,7 +97,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testEnablePostgis(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->enablePostgis();
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -107,7 +107,7 @@ class PostgresGrammarTest extends BaseTestCase
     }
 
     public function testDisablePostgis(): void
-	{
+    {
         $blueprint = new Blueprint('test');
         $blueprint->disablePostgis();
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
@@ -120,15 +120,15 @@ class PostgresGrammarTest extends BaseTestCase
      * @return Connection
      */
     protected function getConnection(): Connection
-	{
+    {
         return Mockery::mock(PostgresConnection::class);
     }
 
-	/**
-	 * @return \LaravelSpatial\Schema\Grammars\PostgresGrammar
-	 */
+    /**
+     * @return \LaravelSpatial\Schema\Grammars\PostgresGrammar
+     */
     protected function getGrammar(): PostgresGrammar
-	{
+    {
         return new PostgresGrammar();
     }
 }

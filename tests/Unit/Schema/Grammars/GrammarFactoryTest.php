@@ -15,32 +15,36 @@ use Tests\Unit\BaseTestCase;
  *
  * @coversDefaultClass \LaravelSpatial\Schema\Grammars\GrammarFactory
  */
-class GrammarFactoryTest extends BaseTestCase {
+class GrammarFactoryTest extends BaseTestCase
+{
 
-	/**
-	 * @covers ::make
-	 */
-	public function testReturnMysqlGrammar(): void {
-		$result = GrammarFactory::make('mysql');
+    /**
+     * @covers ::make
+     */
+    public function testReturnMysqlGrammar(): void
+    {
+        $result = GrammarFactory::make('mysql');
 
-		$this->assertInstanceOf(MySqlGrammar::class, $result);
-	}
+        $this->assertInstanceOf(MySqlGrammar::class, $result);
+    }
 
-	/**
-	 * @covers ::make
-	 */
-	public function testReturnPostgresGrammar(): void {
-		$result = GrammarFactory::make('postgresql');
+    /**
+     * @covers ::make
+     */
+    public function testReturnPostgresGrammar(): void
+    {
+        $result = GrammarFactory::make('postgresql');
 
-		$this->assertInstanceOf(PostgresGrammar::class, $result);
-	}
+        $this->assertInstanceOf(PostgresGrammar::class, $result);
+    }
 
-	/**
-	 * @covers ::make
-	 */
-	public function testThrowOnUnsupported(): void {
-		$this->expectException(InvalidArgumentException::class);
+    /**
+     * @covers ::make
+     */
+    public function testThrowOnUnsupported(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
 
-		GrammarFactory::make('not a real platform');
-	}
+        GrammarFactory::make('not a real platform');
+    }
 }

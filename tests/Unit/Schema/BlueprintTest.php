@@ -13,9 +13,9 @@ use Tests\Unit\BaseTestCase;
  */
 class BlueprintTest extends BaseTestCase
 {
-	/**
-	 * @var \Mockery\Mock|Blueprint
-	 */
+    /**
+     * @var \Mockery\Mock|Blueprint
+     */
     protected $blueprint;
 
     public function setUp(): void
@@ -27,7 +27,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testGeometry(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('geometry', 'col')
@@ -37,7 +37,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testPoint(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('point', 'col', ['srid' => null])
@@ -47,7 +47,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testLinestring(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('linestring', 'col')
@@ -57,7 +57,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testPolygon(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('polygon', 'col')
@@ -67,7 +67,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testMultiPoint(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('multipoint', 'col')
@@ -77,7 +77,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testMultiLineString(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('multilinestring', 'col')
@@ -87,7 +87,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testMultiPolygon(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('multipolygon', 'col')
@@ -97,7 +97,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testGeometryCollection(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('geometrycollection', 'col')
@@ -107,7 +107,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testEnablePostgis(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addCommand')
             ->with('enablePostgis')
@@ -117,7 +117,7 @@ class BlueprintTest extends BaseTestCase
     }
 
     public function testDisablePostgis(): void
-	{
+    {
         $this->blueprint
             ->shouldReceive('addCommand')
             ->with('disablePostgis')

@@ -16,17 +16,17 @@ class MultiLineString extends Type
 {
     const MULTILINESTRING = 'multilinestring';
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-	    return GrammarFactory::make($platform->getName())->typeMultilinestring(new Fluent);
+        return GrammarFactory::make($platform->getName())->typeMultilinestring(new Fluent);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getName()
     {
         return self::MULTILINESTRING;

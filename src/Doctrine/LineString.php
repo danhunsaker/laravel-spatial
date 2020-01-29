@@ -16,17 +16,17 @@ class LineString extends Type
 {
     const LINESTRING = 'linestring';
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-	    return GrammarFactory::make($platform->getName())->typeLinestring(new Fluent);
+        return GrammarFactory::make($platform->getName())->typeLinestring(new Fluent);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getName()
     {
         return self::LINESTRING;

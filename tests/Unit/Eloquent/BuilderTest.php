@@ -21,15 +21,15 @@ use Tests\Unit\BaseTestCase;
  */
 class BuilderTest extends BaseTestCase
 {
-	/**
-	 * @var \LaravelSpatial\Eloquent\Builder
-	 */
-	protected $builder;
+    /**
+     * @var \LaravelSpatial\Eloquent\Builder
+     */
+    protected $builder;
 
-	/**
-	 * @var QueryBuilder|\Mockery\MockInterface
-	 */
-	protected $queryBuilder;
+    /**
+     * @var QueryBuilder|\Mockery\MockInterface
+     */
+    protected $queryBuilder;
 
     protected function setUp(): void
     {
@@ -56,7 +56,7 @@ class BuilderTest extends BaseTestCase
     }
 
     public function testUpdatePoint(): void
-	{
+    {
         $point = new Point([1, 2]);
 
         $this->queryBuilder
@@ -72,7 +72,7 @@ class BuilderTest extends BaseTestCase
     }
 
     public function testUpdateLinestring(): void
-	{
+    {
         $linestring = new LineString([new Point([0, 0]), new Point([1, 1]), new Point([2, 2])]);
 
         $this->queryBuilder
@@ -88,7 +88,7 @@ class BuilderTest extends BaseTestCase
     }
 
     public function testUpdatePolygon(): void
-	{
+    {
         $polygon = new Polygon([[new Point([0, 0]), new Point([0, 1]), new Point([1, 1]), new Point([0, 0])]]);
 
         $this->queryBuilder

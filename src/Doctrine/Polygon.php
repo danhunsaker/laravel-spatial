@@ -16,17 +16,17 @@ class Polygon extends Type
 {
     const POLYGON = 'polygon';
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-	    return GrammarFactory::make($platform->getName())->typePolygon(new Fluent);
+        return GrammarFactory::make($platform->getName())->typePolygon(new Fluent);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getName()
     {
         return self::POLYGON;

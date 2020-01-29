@@ -46,7 +46,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testInsertUpdatePointHasCorrectSql(): void
-	{
+    {
         $this->assertFalse($this->model->exists);
 
         $this->model->point = new Point([1, 2]);
@@ -66,7 +66,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testInsertUpdateLineStringHasCorrectSql(): void
-	{
+    {
         $point1 = new Point([1, 2]);
         $point2 = new Point([2, 3]);
 
@@ -89,7 +89,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testInsertUpdatePolygonHasCorrectSql(): void
-	{
+    {
         $point1 = new Point([1, 2]);
         $point2 = new Point([2, 3]);
         $point3 = new Point([3, 2]);
@@ -113,7 +113,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testInsertUpdateMultiPointHasCorrectSql(): void
-	{
+    {
         $point1 = new Point([1, 2]);
         $point2 = new Point([2, 3]);
 
@@ -136,7 +136,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testInsertUpdateMultiLineStringHasCorrectSql(): void
-	{
+    {
         $point1 = new Point([1, 2]);
         $point2 = new Point([2, 3]);
         $linestring1 = new LineString([$point1, $point2]);
@@ -162,7 +162,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testInsertUpdateMultiPolygonHasCorrectSql(): void
-	{
+    {
         $point1 = new Point([1, 2]);
         $point2 = new Point([2, 3]);
         $point3 = new Point([3, 2]);
@@ -193,7 +193,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testInsertUpdateGeometryCollectionHasCorrectSql(): void
-	{
+    {
         $point1 = new Point([1, 2]);
         $linestring1 = new LineString([[2, 3], [3, 3]]);
 
@@ -215,7 +215,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testSettingRawAttributes(): void
-	{
+    {
         $attributes['point'] = pack('H*', '0101000000000000000000f03f0000000000000040');
 
         $this->model->setRawAttributes($attributes);
@@ -223,14 +223,14 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testSpatialFieldsNotDefinedException(): void
-	{
+    {
         $model = new TestNoSpatialModel();
         $this->expectException(SpatialFieldsNotDefinedException::class);
         $model->getSpatialFields();
     }
 
     public function testScopeDistance(): void
-	{
+    {
         $point = new Point([1, 2]);
         $query = TestModel::distance('point', $point, 10);
 
@@ -245,7 +245,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDistanceExcludingSelf(): void
-	{
+    {
         $point = new Point([1, 2]);
         $query = TestModel::distanceExcludingSelf('point', $point, 10);
 
@@ -262,7 +262,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDistanceSphere(): void
-	{
+    {
         $point = new Point([1, 2]);
         $query = TestModel::distanceSphere('point', $point, 10);
 
@@ -277,7 +277,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDistanceSphereExcludingSelf(): void
-	{
+    {
         $point = new Point([1, 2]);
         $query = TestModel::distanceSphereExcludingSelf('point', $point, 10);
 
@@ -294,7 +294,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDistanceValue(): void
-	{
+    {
         $point = new Point([1, 2]);
         $query = TestModel::distanceValue('point', $point);
 
@@ -310,7 +310,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDistanceValueWithSelect(): void
-	{
+    {
         $point = new Point([1, 2]);
         $query = TestModel::select('some_column')->distanceValue('point', $point);
 
@@ -326,7 +326,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDistanceSphereValue(): void
-	{
+    {
         $point = new Point([1, 2]);
         $query = TestModel::distanceSphereValue('point', $point);
 
@@ -342,7 +342,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDistanceSphereValueWithSelect(): void
-	{
+    {
         $point = new Point([1, 2]);
         $query = TestModel::select('some_column')->distanceSphereValue('point', $point);
 
@@ -357,11 +357,11 @@ class SpatialTraitTest extends BaseTestCase
         $this->assertEquals('POINT (1 2)', $bindings[0]);
     }
 
-	/**
-	 * @return \GeoJson\Geometry\Polygon
-	 */
-	private function buildTestPolygon(): Polygon
-	{
+    /**
+     * @return \GeoJson\Geometry\Polygon
+     */
+    private function buildTestPolygon(): Polygon
+    {
         $point1 = new Point([1, 1]);
         $point2 = new Point([1, 2]);
         $point3 = new Point([1, 2]);
@@ -373,7 +373,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeComparison(): void
-	{
+    {
         $query = TestModel::comparison('point', $this->buildTestPolygon(), 'within');
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -386,7 +386,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeWithin(): void
-	{
+    {
         $query = TestModel::within('point', $this->buildTestPolygon());
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -399,7 +399,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeCrosses(): void
-	{
+    {
         $query = TestModel::crosses('point', $this->buildTestPolygon());
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -412,7 +412,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeContains(): void
-	{
+    {
         $query = TestModel::contains('point', $this->buildTestPolygon());
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -425,7 +425,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDisjoint(): void
-	{
+    {
         $query = TestModel::disjoint('point', $this->buildTestPolygon());
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -438,7 +438,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeEquals(): void
-	{
+    {
         $query = TestModel::equals('point', $this->buildTestPolygon());
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -451,7 +451,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeIntersects(): void
-	{
+    {
         $query = TestModel::intersects('point', $this->buildTestPolygon());
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -464,7 +464,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeOverlaps(): void
-	{
+    {
         $query = TestModel::overlaps('point', $this->buildTestPolygon());
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -477,7 +477,7 @@ class SpatialTraitTest extends BaseTestCase
     }
 
     public function testScopeDoesTouch(): void
-	{
+    {
         $query = TestModel::doesTouch('point', $this->buildTestPolygon());
 
         $this->assertInstanceOf(Builder::class, $query);
@@ -531,12 +531,12 @@ class TestModel extends Model
     }
 
     public function testrelatedmodels(): \Illuminate\Database\Eloquent\Relations\HasMany
-	{
+    {
         return $this->hasMany(TestRelatedModel::class);
     }
 
     public function testrelatedmodels2(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-	{
+    {
         return $this->belongsToMany(TestRelatedModel::class);
     }
 }
@@ -544,12 +544,12 @@ class TestModel extends Model
 class TestRelatedModel extends TestModel
 {
     public function testmodel(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-	{
+    {
         return $this->belongsTo(TestModel::class);
     }
 
     public function testmodels(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-	{
+    {
         return $this->belongsToMany(TestModel::class);
     }
 }
@@ -579,12 +579,12 @@ class TestPDO extends \PDO
     }
 
     public function lastInsertId($name = null): int
-	{
+    {
         return $this->counter++;
     }
 
     public function resetQueries(): void
-	{
+    {
         $this->queries = [];
     }
 }

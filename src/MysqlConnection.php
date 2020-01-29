@@ -13,10 +13,10 @@ use LaravelSpatial\Schema\Grammars\MySqlGrammar;
  */
 class MysqlConnection extends BaseMysqlConnection
 {
-	/**
-	 * @inheritDoc
-	 * @throws \Doctrine\DBAL\DBALException
-	 */
+    /**
+     * @inheritDoc
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
     {
         parent::__construct($pdo, $database, $tablePrefix, $config);
@@ -40,9 +40,9 @@ class MysqlConnection extends BaseMysqlConnection
         }
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     protected function getDefaultSchemaGrammar()
     {
         return $this->withTablePrefix(new MySqlGrammar());

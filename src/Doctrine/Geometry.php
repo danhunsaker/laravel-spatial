@@ -16,17 +16,17 @@ class Geometry extends Type
 {
     const GEOMETRY = 'geometry';
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-	    return GrammarFactory::make($platform->getName())->typeGeometry(new Fluent);
+        return GrammarFactory::make($platform->getName())->typeGeometry(new Fluent);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getName()
     {
         return self::GEOMETRY;

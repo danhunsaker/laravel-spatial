@@ -16,17 +16,17 @@ class MultiPolygon extends Type
 {
     const MULTIPOLYGON = 'multipolygon';
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-    	return GrammarFactory::make($platform->getName())->typeMultipolygon(new Fluent());
+        return GrammarFactory::make($platform->getName())->typeMultipolygon(new Fluent());
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getName()
     {
         return self::MULTIPOLYGON;

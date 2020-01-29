@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class BaseTestCase extends TestCase
 {
-	use MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     public function tearDown(): void
     {

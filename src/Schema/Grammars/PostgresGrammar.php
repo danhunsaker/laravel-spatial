@@ -13,53 +13,53 @@ use Illuminate\Database\Schema\Blueprint;
  */
 class PostgresGrammar extends BasePostgresGrammar
 {
-	/**
-	 * @inheritDoc
-	 */
-	public function typePoint(Fluent $column)
-	{
-		return parent::typePoint($column);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function typePoint(Fluent $column)
+    {
+        return parent::typePoint($column);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function typeMultiPoint(Fluent $column)
-	{
-		return parent::typeMultiPoint($column);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function typeMultiPoint(Fluent $column)
+    {
+        return parent::typeMultiPoint($column);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function typePolygon(Fluent $column)
-	{
-		return parent::typePolygon($column);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function typePolygon(Fluent $column)
+    {
+        return parent::typePolygon($column);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function typeMultiPolygon(Fluent $column)
-	{
-		return parent::typeMultiPolygon($column);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function typeMultiPolygon(Fluent $column)
+    {
+        return parent::typeMultiPolygon($column);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function typeLineString(Fluent $column)
-	{
-		return parent::typeLineString($column);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function typeLineString(Fluent $column)
+    {
+        return parent::typeLineString($column);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function typeMultiLineString(Fluent $column)
-	{
-		return parent::typeMultiLineString($column);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function typeMultiLineString(Fluent $column)
+    {
+        return parent::typeMultiLineString($column);
+    }
 
     /**
      * @inheritDoc
@@ -69,21 +69,21 @@ class PostgresGrammar extends BasePostgresGrammar
         return 'GEOGRAPHY';
     }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function typeGeometry(Fluent $column)
-	{
-		return parent::typeGeometry( $column);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function typeGeometry(Fluent $column)
+    {
+        return parent::typeGeometry($column);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function typeGeometryCollection(Fluent $column)
-	{
-		return parent::typeGeometryCollection($column);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function typeGeometryCollection(Fluent $column)
+    {
+        return parent::typeGeometryCollection($column);
+    }
 
     /**
      * Adds a statement to create the postgis extension

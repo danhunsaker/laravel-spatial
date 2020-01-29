@@ -16,17 +16,17 @@ class GeometryCollection extends Type
 {
     const GEOMETRYCOLLECTION = 'geometrycollection';
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-	    return GrammarFactory::make($platform->getName())->typeGeometrycollection(new Fluent);
+        return GrammarFactory::make($platform->getName())->typeGeometrycollection(new Fluent);
     }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public function getName()
     {
         return self::GEOMETRYCOLLECTION;

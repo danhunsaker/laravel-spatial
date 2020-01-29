@@ -19,10 +19,10 @@ use Tests\Unit\Stubs\PDOStub;
 class ConnectionFactoryTest extends BaseTestCase
 {
     public function testMysqlMakeCallsCreateConnection(): void
-	{
+    {
         $pdo = new PDOStub();
 
-		/** @var \Mockery\MockInterface|ConnectionFactory $factory */
+        /** @var \Mockery\MockInterface|ConnectionFactory $factory */
         $factory = Mockery::mock(ConnectionFactory::class, [new Container()])->makePartial();
         $factory->shouldAllowMockingProtectedMethods();
         $conn = $factory->createConnection('mysql', $pdo, 'database');
@@ -31,7 +31,7 @@ class ConnectionFactoryTest extends BaseTestCase
     }
 
     public function testPostgresMakeCallsCreateConnection(): void
-	{
+    {
         $pdo = new PDOStub();
 
         /** @var \Mockery\MockInterface|ConnectionFactory $factory */
@@ -43,10 +43,10 @@ class ConnectionFactoryTest extends BaseTestCase
     }
 
     public function testCreateConnectionDifferentDriver(): void
-	{
+    {
         $pdo = new PDOStub();
 
-		/** @var \Mockery\MockInterface|ConnectionFactory $factory */
+        /** @var \Mockery\MockInterface|ConnectionFactory $factory */
         $factory = Mockery::mock(ConnectionFactory::class, [new Container()])->makePartial();
         $factory->shouldAllowMockingProtectedMethods();
         $conn = $factory->createConnection('sqlite', $pdo, 'database');
