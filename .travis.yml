@@ -1,34 +1,56 @@
 language: php
-
-sudo: required
+os: linux
 
 services:
   - docker
 
 php:
-  - '5.6'
-  - '7.0'
   - '7.1'
   - '7.2'
   - '7.3'
   - '7.4'
-  - hhvm
   - nightly
 
 env:
-  - MYSQL_VERSION=5.7 PG_VERSION=9.1
-  - MYSQL_VERSION=8.0 PG_VERSION=9.2
-  - MARIA_VERSION=5.5 PG_VERSION=9.3
-  - MARIA_VERSION=10.0 PG_VERSION=9.4
-  - MARIA_VERSION=10.1 PG_VERSION=9.5
-  - MARIA_VERSION=10.2 PG_VERSION=9.6
-  - MARIA_VERSION=10.3 PG_VERSION=10
-  - MARIA_VERSION=10.4 PG_VERSION=11
+  # Laravel 5.* Jobs
+  - MYSQL_VERSION=5.7 PG_VERSION=9.1 LA_VERSION="5.*"
+  - MYSQL_VERSION=8.0 PG_VERSION=9.2 LA_VERSION="5.*"
+  - MARIA_VERSION=5.5 PG_VERSION=9.3 LA_VERSION="5.*"
+  - MARIA_VERSION=10.0 PG_VERSION=9.4 LA_VERSION="5.*"
+  - MARIA_VERSION=10.1 PG_VERSION=9.5 LA_VERSION="5.*"
+  - MARIA_VERSION=10.2 PG_VERSION=9.6 LA_VERSION="5.*"
+  - MARIA_VERSION=10.3 PG_VERSION=10 LA_VERSION="5.*"
+  - MARIA_VERSION=10.4 PG_VERSION=11 LA_VERSION="5.*"
+  # Laravel 6.* Jobs
+  - MYSQL_VERSION=5.7 PG_VERSION=9.1 LA_VERSION="6.*"
+  - MYSQL_VERSION=8.0 PG_VERSION=9.2 LA_VERSION="6.*"
+  - MARIA_VERSION=5.5 PG_VERSION=9.3 LA_VERSION="6.*"
+  - MARIA_VERSION=10.0 PG_VERSION=9.4 LA_VERSION="6.*"
+  - MARIA_VERSION=10.1 PG_VERSION=9.5 LA_VERSION="6.*"
+  - MARIA_VERSION=10.2 PG_VERSION=9.6 LA_VERSION="6.*"
+  - MARIA_VERSION=10.3 PG_VERSION=10 LA_VERSION="6.*"
+  - MARIA_VERSION=10.4 PG_VERSION=11 LA_VERSION="6.*"
 
-matrix:
+jobs:
+  exclude:
+    - php: '7.1'
+      env: MYSQL_VERSION=5.7 PG_VERSION=9.1 LA_VERSION="6.*"
+    - php: '7.1'
+      env: MYSQL_VERSION=8.0 PG_VERSION=9.2 LA_VERSION="6.*"
+    - php: '7.1'
+      env: MARIA_VERSION=5.5 PG_VERSION=9.3 LA_VERSION="6.*"
+    - php: '7.1'
+      env: MARIA_VERSION=10.0 PG_VERSION=9.4 LA_VERSION="6.*"
+    - php: '7.1'
+      env: MARIA_VERSION=10.1 PG_VERSION=9.5 LA_VERSION="6.*"
+    - php: '7.1'
+      env: MARIA_VERSION=10.2 PG_VERSION=9.6 LA_VERSION="6.*"
+    - php: '7.1'
+      env: MARIA_VERSION=10.3 PG_VERSION=10 LA_VERSION="6.*"
+    - php: '7.1'
+      env: MARIA_VERSION=10.4 PG_VERSION=11 LA_VERSION="6.*"
+
   allow_failures:
-    - php: '5.6'
-    - php: hhvm
     - php: nightly
 
 before_install:
@@ -44,7 +66,8 @@ before_install:
   - make -C tests/ start_db_postgres pV=${PG_VERSION}
 
 install:
-  - travis_retry composer install
+  - composer require --dev --no-suggest --no-update laravel/laravel:${LA_VERSION}
+  - travis_retry composer install --no-suggest
 
 before_script:
   - mkdir -p build/logs
@@ -52,7 +75,7 @@ before_script:
   - echo -n Ensuring PostgreSQL DB is ready; ./tests/wait_container spatial-postgres ; echo
 
 script:
-  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml --prepend .coverage-filter.php
 
 after_script:
   - |

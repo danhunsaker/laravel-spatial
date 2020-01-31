@@ -79,4 +79,4 @@ __do_test:
 	@docker run -it --rm --name spatial-php -v "$(shell pwd)/..":/usr/src/app -w /usr/src/app \
 		-e MYSQL_HOST=$(shell $(MAKE) -s get_ip_mysql) \
 		-e POSTGRES_HOST=$(shell $(MAKE) -s get_ip_postgres) \
-		spatial-php ./vendor/bin/phpunit || true
+		spatial-php ./vendor/bin/phpunit --prepend .coverage-filter.php || true
