@@ -5,7 +5,6 @@ services:
   - docker
 
 php:
-  - '7.1'
   - '7.2'
   - '7.3'
   - '7.4'
@@ -32,24 +31,6 @@ env:
   - MARIA_VERSION=10.4 PG_VERSION=11 LA_VERSION="6.*"
 
 jobs:
-  exclude:
-    - php: '7.1'
-      env: MYSQL_VERSION=5.7 PG_VERSION=9.1 LA_VERSION="6.*"
-    - php: '7.1'
-      env: MYSQL_VERSION=8.0 PG_VERSION=9.2 LA_VERSION="6.*"
-    - php: '7.1'
-      env: MARIA_VERSION=5.5 PG_VERSION=9.3 LA_VERSION="6.*"
-    - php: '7.1'
-      env: MARIA_VERSION=10.0 PG_VERSION=9.4 LA_VERSION="6.*"
-    - php: '7.1'
-      env: MARIA_VERSION=10.1 PG_VERSION=9.5 LA_VERSION="6.*"
-    - php: '7.1'
-      env: MARIA_VERSION=10.2 PG_VERSION=9.6 LA_VERSION="6.*"
-    - php: '7.1'
-      env: MARIA_VERSION=10.3 PG_VERSION=10 LA_VERSION="6.*"
-    - php: '7.1'
-      env: MARIA_VERSION=10.4 PG_VERSION=11 LA_VERSION="6.*"
-
   allow_failures:
     - php: nightly
 
