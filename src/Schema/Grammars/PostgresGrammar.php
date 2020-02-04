@@ -70,11 +70,14 @@ class PostgresGrammar extends BasePostgresGrammar
     }
 
     /**
-     * @inheritDoc
+     * Adds a statement to add a geometry geometry column
+     *
+     * @param Fluent $column
+     * @return string
      */
     public function typeGeometry(Fluent $column)
     {
-        return parent::typeGeometry($column);
+        return 'GEOGRAPHY(GEOMETRY, 4326)';
     }
 
     /**

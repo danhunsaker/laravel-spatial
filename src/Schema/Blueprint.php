@@ -11,6 +11,17 @@ use Illuminate\Database\Schema\Blueprint as BaseBlueprint;
 class Blueprint extends BaseBlueprint
 {
     /**
+     * Create a new point column on the table.
+     *
+     * @param  string  $column
+     * @return \Illuminate\Support\Fluent
+     */
+    public function point($column)
+    {
+        return $this->addColumn('point', $column, ['srid' => null]);
+    }
+
+    /**
      * Enable postgis on this database.
      * Will create the extension in the database.
      *
