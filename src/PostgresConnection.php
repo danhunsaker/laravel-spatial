@@ -1,7 +1,19 @@
 <?php namespace LaravelSpatial;
 
+use LaravelSpatial\Schema\Grammars\PostgresGrammar;
+use LaravelSpatial\Schema\PostgresBuilder;
+
+/**
+ * Class PostgresConnection
+ *
+ * @package LaravelSpatial
+ */
 class PostgresConnection extends \Illuminate\Database\PostgresConnection
 {
+    /**
+     * @inheritDoc
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
     {
         parent::__construct($pdo, $database, $tablePrefix, $config);
@@ -10,22 +22,23 @@ class PostgresConnection extends \Illuminate\Database\PostgresConnection
         $this->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('geography', 'string');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getSchemaBuilder()
     {
-        if (is_null($this->schemaGrammar)) {
+        if ($this->schemaGrammar === null) {
             $this->useDefaultSchemaGrammar();
         }
 
-        return new Schema\Builder($this);
+        return new PostgresBuilder($this);
     }
 
     /**
-     * Get the default schema grammar instance.
-     *
-     * @return \Illuminate\Database\Grammar
+     * @inheritDoc
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new Schema\Grammars\PostgresGrammar);
+        return $this->withTablePrefix(new PostgresGrammar());
     }
 }

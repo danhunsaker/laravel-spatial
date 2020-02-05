@@ -1,28 +1,41 @@
 <?php
 
-class PostgresTest extends MysqlTest
+namespace Tests\Integration;
+
+/**
+ * Class PostgresTest
+ * @package Tests\Integration
+ */
+class PostgresTest extends BaseIntegrationTest
 {
+    /**
+     * @inheritDoc
+     */
     protected $is_postgres = true;
 
     /**
-     * Boots the application.
+     * Setup database specific configuration.
      *
-     * @return \Illuminate\Foundation\Application
+     * @param \Illuminate\Contracts\Foundation\Application $app
      */
-    public function createApplication()
+    protected function setupDatabaseConfig($app): void
     {
-        $app = parent::createApplication();
+        $host = env('POSTGRES_HOST', env('DB_HOST', '127.0.0.1'));
 
-        $app['config']->set('database.default', 'pgsql');
-        $app['config']->set('database.connections.pgsql.host', env('DB_HOST', '127.0.0.1'));
-        $app['config']->set('database.connections.pgsql.database', 'spatial_test');
-        $app['config']->set('database.connections.pgsql.username', 'postgres');
-        $app['config']->set('database.connections.pgsql.password', '');
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app['config'];
 
-        return $app;
+        $config->set('database.default', 'pgsql');
+        $config->set('database.connections.pgsql.host', $host);
+        $config->set('database.connections.pgsql.database', 'spatial_test');
+        $config->set('database.connections.pgsql.username', 'postgres');
+        $config->set('database.connections.pgsql.password', '');
     }
 
-    protected function isMySQL8AfterFix()
+    /**
+     * @inheritDoc
+     */
+    protected function isMySQL8AfterFix(): bool
     {
         return false;
     }

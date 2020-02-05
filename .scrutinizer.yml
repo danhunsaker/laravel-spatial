@@ -14,7 +14,7 @@ build:
       environment:
         docker: true
         php:
-          version: 7.2
+          version: 7.4
       dependencies:
         before:
           - sudo service mysql stop

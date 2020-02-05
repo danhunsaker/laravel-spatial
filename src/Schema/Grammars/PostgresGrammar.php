@@ -2,82 +2,67 @@
 
 namespace LaravelSpatial\Schema\Grammars;
 
+use Illuminate\Database\Schema\Grammars\PostgresGrammar as BasePostgresGrammar;
 use Illuminate\Support\Fluent;
-use LaravelSpatial\Schema\Blueprint;
+use Illuminate\Database\Schema\Blueprint;
 
-class PostgresGrammar extends \Illuminate\Database\Schema\Grammars\PostgresGrammar
+/**
+ * Class PostgresGrammar
+ *
+ * @package LaravelSpatial\Schema\Grammars
+ */
+class PostgresGrammar extends BasePostgresGrammar
 {
     /**
-     * Adds a statement to add a point geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
+     * @inheritDoc
      */
     public function typePoint(Fluent $column)
     {
-        return 'GEOGRAPHY(POINT, 4326)';
+        return parent::typePoint($column);
     }
 
     /**
-     * Adds a statement to add a point geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
+     * @inheritDoc
      */
-    public function typeMultipoint(Fluent $column)
+    public function typeMultiPoint(Fluent $column)
     {
-        return 'GEOGRAPHY(MULTIPOINT, 4326)';
+        return parent::typeMultiPoint($column);
     }
 
     /**
-     * Adds a statement to add a polygon geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
+     * @inheritDoc
      */
     public function typePolygon(Fluent $column)
     {
-        return 'GEOGRAPHY(POLYGON, 4326)';
+        return parent::typePolygon($column);
     }
 
     /**
-     * Adds a statement to add a multipolygon geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
+     * @inheritDoc
      */
-    public function typeMultipolygon(Fluent $column)
+    public function typeMultiPolygon(Fluent $column)
     {
-        return 'GEOGRAPHY(MULTIPOLYGON, 4326)';
+        return parent::typeMultiPolygon($column);
     }
 
     /**
-     * Adds a statement to add a linestring geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
+     * @inheritDoc
      */
-    public function typeLinestring(Fluent $column)
+    public function typeLineString(Fluent $column)
     {
-        return 'GEOGRAPHY(LINESTRING, 4326)';
+        return parent::typeLineString($column);
     }
 
     /**
-     * Adds a statement to add a multilinestring geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
+     * @inheritDoc
      */
-    public function typeMultilinestring(Fluent $column)
+    public function typeMultiLineString(Fluent $column)
     {
-        return 'GEOGRAPHY(MULTILINESTRING, 4326)';
+        return parent::typeMultiLineString($column);
     }
 
     /**
-     * Adds a statement to add a linestring geometry column
-     *
-     * @param \Illuminate\Support\Fluent $column
-     * @return string
+     * @inheritDoc
      */
     public function typeGeography(Fluent $column)
     {
@@ -96,14 +81,11 @@ class PostgresGrammar extends \Illuminate\Database\Schema\Grammars\PostgresGramm
     }
 
     /**
-     * Adds a statement to add a geometrycollection geometry column
-     *
-     * @param Fluent $column
-     * @return string
+     * @inheritDoc
      */
-    public function typeGeometrycollection(Fluent $column)
+    public function typeGeometryCollection(Fluent $column)
     {
-        return 'GEOGRAPHY(GEOMETRYCOLLECTION, 4326)';
+        return parent::typeGeometryCollection($column);
     }
 
     /**
@@ -111,6 +93,7 @@ class PostgresGrammar extends \Illuminate\Database\Schema\Grammars\PostgresGramm
      *
      * @param Blueprint $blueprint
      * @param Fluent $command
+     *
      * @return string
      */
     public function compileEnablePostgis(Blueprint $blueprint, Fluent $command)

@@ -32,14 +32,14 @@ class SpatialServiceProvider extends DatabaseServiceProvider
         // The connection factory is used to create the actual connection instances on
         // the database. We will inject the factory into the manager so that it may
         // make the connections while they are actually needed and not of before.
-        $this->app->singleton('db.factory', function($app) {
+        $this->app->singleton('db.factory', function ($app) {
             return new ConnectionFactory($app);
         });
 
         // The database manager is used to resolve various connections, since multiple
         // connections might be managed. It also implements the connection resolver
         // interface which may be used by other components requiring connections.
-        $this->app->singleton('db', function($app) {
+        $this->app->singleton('db', function ($app) {
             return new DatabaseManager($app, $app['db.factory']);
         });
 
@@ -56,9 +56,9 @@ class SpatialServiceProvider extends DatabaseServiceProvider
                 'geomcollection' => GeometryCollection::class,
                 'geometrycollection' => GeometryCollection::class,
             ];
-            $typeNames = array_keys(Type::getTypesMap());
+
             foreach ($geometries as $type => $class) {
-                if (!in_array($type, $typeNames)) {
+                if (!Type::hasType($type)) {
                     Type::addType($type, $class);
                 }
             }

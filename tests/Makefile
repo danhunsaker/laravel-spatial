@@ -9,6 +9,8 @@ mDB_DIR=$(shell pwd)/_mdb-$(mV)
 pV=10
 pDB_DIR=$(shell pwd)/_pdb-$(pV)
 
+phpV=7.3
+
 start_db_mysql:
 	@echo Starting MySQL $(oV)
 	docker run --rm -d --name spatial-mysql \
@@ -39,6 +41,10 @@ start_db_postgres:
 		-e POSTGRES_PASSWORD="" \
 		mdillon/postgis:$(pV)
 
+build_php:
+	@echo Building Php $(phpV)
+	docker build --rm -t spatial-php --build-arg PHP_VERSION=$(phpV) ./php
+
 rm_db_mysql:
 	docker stop spatial-mysql || true
 	sudo rm -Rf $(oDB_DIR)
@@ -63,11 +69,14 @@ get_ip_mysql:
 get_ip_postgres:
 	@docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' spatial-postgres
 
-run_tests: start_db_${mySrv} start_db_postgres __do_test rm_db_${mySrv} rm_db_postgres
+run_tests: start_db_${mySrv} start_db_postgres build_php __do_test rm_db_${mySrv} rm_db_postgres
 
 __do_test:
 	@echo -n "\nWaiting for servers to fully start"
 	@./wait_container spatial-mysql
 	@./wait_container spatial-postgres
 	@echo " Ready! Starting tests.\n"
-	@cd .. && ./vendor/bin/phpunit || true
+	@docker run -it --rm --name spatial-php -v "$(shell pwd)/..":/usr/src/app -w /usr/src/app \
+		-e MYSQL_HOST=$(shell $(MAKE) -s get_ip_mysql) \
+		-e POSTGRES_HOST=$(shell $(MAKE) -s get_ip_postgres) \
+		spatial-php ./vendor/bin/phpunit || true

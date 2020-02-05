@@ -1,8 +1,7 @@
 <?php
 
-namespace Eloquent;
+namespace Tests\Unit\Eloquent;
 
-use BaseTestCase;
 use GeoJson\Geometry\Point;
 use GeoJson\Geometry\LineString;
 use GeoJson\Geometry\Polygon;
@@ -14,13 +13,25 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Query\Grammars\MySqlGrammar;
 use Mockery;
+use Tests\Unit\BaseTestCase;
 
+/**
+ * Class BuilderTest
+ * @package Tests\Unit\Eloquent
+ */
 class BuilderTest extends BaseTestCase
 {
+    /**
+     * @var \LaravelSpatial\Eloquent\Builder
+     */
     protected $builder;
+
+    /**
+     * @var QueryBuilder|\Mockery\MockInterface
+     */
     protected $queryBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $connection = Mockery::mock(MysqlConnection::class)->makePartial();
         $grammar = Mockery::mock(MySqlGrammar::class)->makePartial();
@@ -44,7 +55,7 @@ class BuilderTest extends BaseTestCase
         $this->builder->setModel(new TestBuilderModel());
     }
 
-    public function testUpdatePoint()
+    public function testUpdatePoint(): void
     {
         $point = new Point([1, 2]);
 
@@ -60,7 +71,7 @@ class BuilderTest extends BaseTestCase
         $this->builder->update(['point' => $point]);
     }
 
-    public function testUpdateLinestring()
+    public function testUpdateLinestring(): void
     {
         $linestring = new LineString([new Point([0, 0]), new Point([1, 1]), new Point([2, 2])]);
 
@@ -76,7 +87,7 @@ class BuilderTest extends BaseTestCase
         $this->builder->update(['linestring' => $linestring]);
     }
 
-    public function testUpdatePolygon()
+    public function testUpdatePolygon(): void
     {
         $polygon = new Polygon([[new Point([0, 0]), new Point([0, 1]), new Point([1, 1]), new Point([0, 0])]]);
 

@@ -1,19 +1,45 @@
 <?php
 
-abstract class BaseTestCase extends PHPUnit_Framework_TestCase
-{
-    public function tearDown()
-    {
-        Mockery::close();
-    }
+namespace Tests\Unit;
 
-    protected function assertException($exceptionName)
-    {
-        if (method_exists(parent::class, 'expectException')) {
-            parent::expectException($exceptionName);
-        } else {
-            /** @scrutinizer ignore-deprecated */
-            $this->setExpectedException($exceptionName);
-        }
-    }
+use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Class BaseTestCase
+ * @package Tests\Unit
+ */
+abstract class BaseTestCase extends TestCase
+{
+	use MockeryPHPUnitIntegration;
+
+	public function tearDown(): void
+	{
+		Mockery::close();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function assertStringContainsStringIgnoringCase(string $needle, string $haystack, string $message = ''): void
+	{
+		if (method_exists(parent::class, 'assertStringContainsStringIgnoringCase')) {
+			parent::assertStringContainsStringIgnoringCase($needle, $haystack, $message);
+		} else {
+			self::assertContains($needle, $haystack, $message, true);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function assertStringContainsString(string $needle, string $haystack, string $message = ''): void
+	{
+		if (method_exists(parent::class, 'assertStringContainsString')) {
+			parent::assertStringContainsString($needle, $haystack, $message);
+		} else {
+			self::assertContains($needle, $haystack, $message);
+		}
+	}
 }

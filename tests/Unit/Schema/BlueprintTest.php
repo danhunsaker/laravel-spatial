@@ -1,16 +1,24 @@
 <?php
 
-namespace Schema;
+namespace Tests\Unit\Schema;
 
-use BaseTestCase;
 use LaravelSpatial\Schema\Blueprint;
 use Mockery;
+use Tests\Unit\BaseTestCase;
 
+/**
+ * Class BlueprintTest
+ *
+ * @package Tests\Unit\Schema
+ */
 class BlueprintTest extends BaseTestCase
 {
+    /**
+     * @var \Mockery\Mock|Blueprint
+     */
     protected $blueprint;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -18,7 +26,7 @@ class BlueprintTest extends BaseTestCase
             ->makePartial()->shouldAllowMockingProtectedMethods();
     }
 
-    public function testGeometry()
+    public function testGeometry(): void
     {
         $this->blueprint
             ->shouldReceive('addColumn')
@@ -28,7 +36,7 @@ class BlueprintTest extends BaseTestCase
         $this->blueprint->geometry('col');
     }
 
-    public function testPoint()
+    public function testPoint(): void
     {
         $this->blueprint
             ->shouldReceive('addColumn')
@@ -38,17 +46,17 @@ class BlueprintTest extends BaseTestCase
         $this->blueprint->point('col');
     }
 
-    public function testLinestring()
+    public function testLinestring(): void
     {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('linestring', 'col')
             ->once();
 
-        $this->blueprint->linestring('col');
+        $this->blueprint->lineString('col');
     }
 
-    public function testPolygon()
+    public function testPolygon(): void
     {
         $this->blueprint
             ->shouldReceive('addColumn')
@@ -58,47 +66,47 @@ class BlueprintTest extends BaseTestCase
         $this->blueprint->polygon('col');
     }
 
-    public function testMultiPoint()
+    public function testMultiPoint(): void
     {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('multipoint', 'col')
             ->once();
 
-        $this->blueprint->multipoint('col');
+        $this->blueprint->multiPoint('col');
     }
 
-    public function testMultiLineString()
+    public function testMultiLineString(): void
     {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('multilinestring', 'col')
             ->once();
 
-        $this->blueprint->multilinestring('col');
+        $this->blueprint->multiLineString('col');
     }
 
-    public function testMulltiPolygon()
+    public function testMultiPolygon(): void
     {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('multipolygon', 'col')
             ->once();
 
-        $this->blueprint->multipolygon('col');
+        $this->blueprint->multiPolygon('col');
     }
 
-    public function testGeometryCollection()
+    public function testGeometryCollection(): void
     {
         $this->blueprint
             ->shouldReceive('addColumn')
             ->with('geometrycollection', 'col')
             ->once();
 
-        $this->blueprint->geometrycollection('col');
+        $this->blueprint->geometryCollection('col');
     }
 
-    public function testEnablePostgis()
+    public function testEnablePostgis(): void
     {
         $this->blueprint
             ->shouldReceive('addCommand')
@@ -108,7 +116,7 @@ class BlueprintTest extends BaseTestCase
         $this->blueprint->enablePostgis();
     }
 
-    public function testDisablePostgis()
+    public function testDisablePostgis(): void
     {
         $this->blueprint
             ->shouldReceive('addCommand')

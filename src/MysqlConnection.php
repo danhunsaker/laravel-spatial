@@ -3,9 +3,20 @@
 namespace LaravelSpatial;
 
 use Doctrine\DBAL\Types\Type;
+use Illuminate\Database\MySqlConnection as BaseMysqlConnection;
+use LaravelSpatial\Schema\Grammars\MySqlGrammar;
 
-class MysqlConnection extends \Illuminate\Database\MySqlConnection
+/**
+ * Class MysqlConnection
+ *
+ * @package LaravelSpatial
+ */
+class MysqlConnection extends BaseMysqlConnection
 {
+    /**
+     * @inheritDoc
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
     {
         parent::__construct($pdo, $database, $tablePrefix, $config);
@@ -29,22 +40,11 @@ class MysqlConnection extends \Illuminate\Database\MySqlConnection
         }
     }
 
-    public function getSchemaBuilder()
-    {
-        if (is_null($this->schemaGrammar)) {
-            $this->useDefaultSchemaGrammar();
-        }
-
-        return new Schema\Builder($this);
-    }
-
     /**
-     * Get the default schema grammar instance.
-     *
-     * @return \Illuminate\Database\Grammar
+     * @inheritDoc
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new Schema\Grammars\MySqlGrammar());
+        return $this->withTablePrefix(new MySqlGrammar());
     }
 }

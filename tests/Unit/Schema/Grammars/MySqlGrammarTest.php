@@ -1,121 +1,133 @@
 <?php
 
+namespace Tests\Unit\Schema\Grammars;
+
 use Illuminate\Database\Connection;
 use LaravelSpatial\MysqlConnection;
 use LaravelSpatial\Schema\Blueprint;
 use LaravelSpatial\Schema\Grammars\MySqlGrammar;
+use Mockery;
+use Tests\Unit\BaseTestCase;
 
-class MySqlGrammarBaseTest extends BaseTestCase
+/**
+ * Class MySqlGrammarBaseTest
+ *
+ * @package Tests\Unit\Schema\Grammars
+ */
+class MySqlGrammarTest extends BaseTestCase
 {
-    public function testAddingGeometry()
+    public function testAddingGeometry(): void
     {
         $blueprint = new Blueprint('test');
         $blueprint->geometry('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(1, count($statements));
-        $this->assertContains('GEOMETRY', $statements[0]);
+        $this->assertCount(1, $statements);
+        $this->assertStringContainsStringIgnoringCase('GEOMETRY', $statements[0]);
     }
 
-    public function testAddingPoint()
+    public function testAddingPoint(): void
     {
         $blueprint = new Blueprint('test');
         $blueprint->point('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(1, count($statements));
-        $this->assertContains('POINT', $statements[0]);
+        $this->assertCount(1, $statements);
+        $this->assertStringContainsStringIgnoringCase('POINT', $statements[0]);
     }
 
-    public function testAddingLinestring()
+    public function testAddingLinestring(): void
     {
         $blueprint = new Blueprint('test');
-        $blueprint->linestring('foo');
+        $blueprint->lineString('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(1, count($statements));
-        $this->assertContains('LINESTRING', $statements[0]);
+        $this->assertCount(1, $statements);
+        $this->assertStringContainsStringIgnoringCase('LINESTRING', $statements[0]);
     }
 
-    public function testAddingPolygon()
+    public function testAddingPolygon(): void
     {
         $blueprint = new Blueprint('test');
         $blueprint->polygon('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(1, count($statements));
-        $this->assertContains('POLYGON', $statements[0]);
+        $this->assertCount(1, $statements);
+        $this->assertStringContainsStringIgnoringCase('POLYGON', $statements[0]);
     }
 
-    public function testAddingMultipoint()
+    public function testAddingMultipoint(): void
     {
         $blueprint = new Blueprint('test');
-        $blueprint->multipoint('foo');
+        $blueprint->multiPoint('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(1, count($statements));
-        $this->assertContains('MULTIPOINT', $statements[0]);
+        $this->assertCount(1, $statements);
+        $this->assertStringContainsStringIgnoringCase('MULTIPOINT', $statements[0]);
     }
 
-    public function testAddingMultiLinestring()
+    public function testAddingMultiLinestring(): void
     {
         $blueprint = new Blueprint('test');
-        $blueprint->multilinestring('foo');
+        $blueprint->multiLineString('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(1, count($statements));
-        $this->assertContains('MULTILINESTRING', $statements[0]);
+        $this->assertCount(1, $statements);
+        $this->assertStringContainsStringIgnoringCase('MULTILINESTRING', $statements[0]);
     }
 
-    public function testAddingMultiPolygon()
+    public function testAddingMultiPolygon(): void
     {
         $blueprint = new Blueprint('test');
-        $blueprint->multipolygon('foo');
+        $blueprint->multiPolygon('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(1, count($statements));
-        $this->assertContains('MULTIPOLYGON', $statements[0]);
+        $this->assertCount(1, $statements);
+        $this->assertStringContainsStringIgnoringCase('MULTIPOLYGON', $statements[0]);
     }
 
-    public function testAddingGeometryCollection()
+    public function testAddingGeometryCollection(): void
     {
         $blueprint = new Blueprint('test');
-        $blueprint->geometrycollection('foo');
+        $blueprint->geometryCollection('foo');
         $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(1, count($statements));
-        $this->assertContains('GEOMETRYCOLLECTION', $statements[0]);
+        $this->assertCount(1, $statements);
+        $this->assertStringContainsStringIgnoringCase('GEOMETRYCOLLECTION', $statements[0]);
     }
 
-    public function testAddRemoveSpatialIndex()
+    public function testAddRemoveSpatialIndex(): void
     {
         $blueprint = new Blueprint('test');
         $blueprint->point('foo');
         $blueprint->spatialIndex('foo');
         $addStatements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
-        $this->assertEquals(2, count($addStatements));
-        $this->assertContains('alter table `test` add spatial index `test_foo_spatialindex`(`foo`)', $addStatements[1]);
+        $this->assertCount(2, $addStatements);
+        $this->assertStringContainsStringIgnoringCase('alter table `test` add spatial index `test_foo_spatialindex`(`foo`)', $addStatements[1]);
 
         $blueprint->dropSpatialIndex(['foo']);
         $blueprint->dropSpatialIndex('test_foo_spatialindex');
         $dropStatements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
 
         $expectedSql = 'alter table `test` drop index `test_foo_spatialindex`';
-        $this->assertEquals(5, count($dropStatements));
-        $this->assertContains($expectedSql, $dropStatements[3]);
-        $this->assertContains($expectedSql, $dropStatements[4]);
+        $this->assertCount(5, $dropStatements);
+        $this->assertStringContainsStringIgnoringCase($expectedSql, $dropStatements[3]);
+        $this->assertStringContainsStringIgnoringCase($expectedSql, $dropStatements[4]);
     }
 
     /**
      * @return Connection
      */
-    protected function getConnection()
+    protected function getConnection(): Connection
     {
         return Mockery::mock(MysqlConnection::class);
     }
 
-    protected function getGrammar()
+    /**
+     * @return \LaravelSpatial\Schema\Grammars\MySqlGrammar
+     */
+    protected function getGrammar(): MySqlGrammar
     {
         return new MySqlGrammar();
     }

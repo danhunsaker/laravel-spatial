@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools;
+namespace Tests\Integration\Tools;
 
 use Symfony\Component\Finder\Finder;
 

@@ -6,16 +6,22 @@ use LaravelSpatial\MysqlConnection;
 use LaravelSpatial\PostgresConnection;
 use PDO;
 
+/**
+ * Class ConnectionFactory
+ *
+ * @package LaravelSpatial\Connectors
+ */
 class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactory
 {
     /**
-     * @param string $driver
+     * @param string       $driver
      * @param \Closure|PDO $connection
-     * @param string $database
-     * @param string $prefix
-     * @param array $config
+     * @param string       $database
+     * @param string       $prefix
+     * @param array        $config
      *
      * @return \Illuminate\Database\ConnectionInterface
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
     {
