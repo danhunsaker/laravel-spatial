@@ -14,7 +14,7 @@ use LaravelSpatial\Schema\Grammars\GrammarFactory;
  */
 class Point extends Type
 {
-	public const POINT = 'point';
+    public const POINT = 'point';
 
     /**
      * @inheritDoc

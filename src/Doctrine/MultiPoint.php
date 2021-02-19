@@ -14,7 +14,7 @@ use LaravelSpatial\Schema\Grammars\GrammarFactory;
  */
 class MultiPoint extends Type
 {
-	public const MULTIPOINT = 'multipoint';
+    public const MULTIPOINT = 'multipoint';
 
     /**
      * @inheritDoc

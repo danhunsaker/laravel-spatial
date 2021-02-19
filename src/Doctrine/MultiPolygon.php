@@ -14,7 +14,7 @@ use LaravelSpatial\Schema\Grammars\GrammarFactory;
  */
 class MultiPolygon extends Type
 {
-	public const MULTIPOLYGON = 'multipolygon';
+    public const MULTIPOLYGON = 'multipolygon';
 
     /**
      * @inheritDoc

@@ -14,7 +14,7 @@ use LaravelSpatial\Schema\Grammars\GrammarFactory;
  */
 class MultiLineString extends Type
 {
-	public const MULTILINESTRING = 'multilinestring';
+    public const MULTILINESTRING = 'multilinestring';
 
     /**
      * @inheritDoc

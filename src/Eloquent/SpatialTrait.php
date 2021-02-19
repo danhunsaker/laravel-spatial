@@ -95,13 +95,13 @@ trait SpatialTrait
 
                 try {
                     $value = GeoJson::jsonUnserialize(
-	                    json_decode(
-		                    geoPHP::load($value, 'wkb')
-		                          ->out('json'),
-		                    false,
-		                    512,
-		                    JSON_THROW_ON_ERROR
-	                    )
+                        json_decode(
+                            geoPHP::load($value, 'wkb')
+                                  ->out('json'),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
+                        )
                     );
                 } catch (Exception $e) {
                     throw new SpatialParseException("Can't parse WKB {$value}: {$e->getMessage()}", $e->getCode(), $e);
@@ -132,13 +132,13 @@ trait SpatialTrait
     protected function toWkt(Geometry $value): string
     {
         try {
-	        $decoded = json_decode(
-		        json_encode($value->jsonSerialize(), JSON_THROW_ON_ERROR),
-		        false,
-		        512,
-		        JSON_THROW_ON_ERROR
-	        );
-	        $wkt     = geoPHP::load($decoded, 'json')->out('wkt');
+            $decoded = json_decode(
+                json_encode($value->jsonSerialize(), JSON_THROW_ON_ERROR),
+                false,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+            $wkt     = geoPHP::load($decoded, 'json')->out('wkt');
         } catch (Exception $e) {
             throw new SpatialParseException('Unable to data to geometry.', 0, $e);
         }

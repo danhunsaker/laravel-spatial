@@ -22,7 +22,7 @@ class Builder extends EloquentBuilder
         foreach ($values as $key => &$value) {
             if ($value instanceof Geometry) {
                 try {
-                	$decoded = json_decode(json_encode($value->jsonSerialize(), JSON_THROW_ON_ERROR), false, 512, JSON_THROW_ON_ERROR);
+                    $decoded = json_decode(json_encode($value->jsonSerialize(), JSON_THROW_ON_ERROR), false, 512, JSON_THROW_ON_ERROR);
                     $wkt     = geoPHP::load($decoded, 'json')
                                  ->out('wkt');
                 } catch (\Exception $e) {
