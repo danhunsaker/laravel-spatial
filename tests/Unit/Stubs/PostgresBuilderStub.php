@@ -10,11 +10,11 @@ use LaravelSpatial\Schema\PostgresBuilder;
  */
 class PostgresBuilderStub extends PostgresBuilder
 {
-	/**
-	 * @inheritDoc
-	 */
-	public function createBlueprint($table, Closure $callback = null)
-	{
-		return parent::createBlueprint($table, $callback);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function createBlueprint($table, Closure $callback = null)
+    {
+        return parent::createBlueprint($table, $callback);
+    }
 }

@@ -9,8 +9,8 @@ use LaravelSpatial\Connectors\ConnectionFactory;
  */
 class ConnectionFactoryStub extends ConnectionFactory
 {
-	public function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
-	{
-		return parent::createConnection($driver, $connection, $database, $prefix, $config);
-	}
+    public function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
+    {
+        return parent::createConnection($driver, $connection, $database, $prefix, $config);
+    }
 }

@@ -70,7 +70,7 @@ class ClassFinder
             }
         }
 
-	    return null;
+        return null;
     }
 
     /**
@@ -95,7 +95,7 @@ class ClassFinder
             }
         }
 
-	    return null;
+        return null;
     }
 
     /**

@@ -113,7 +113,7 @@ class SpatialTraitTest extends BaseTestCase
         // TODO: assert bindings in query
         $this->assertTrue($this->model->exists);
 
-	    $ring2                = new LinearRing([$point1, $point2, $point3, $point4, $point1]);
+        $ring2                = new LinearRing([$point1, $point2, $point3, $point4, $point1]);
         $this->model->polygon = new Polygon([$ring2]);
         $this->model->save();
         $this->assertStringStartsWith('update', $this->queries[1]);

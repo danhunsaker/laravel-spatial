@@ -30,8 +30,8 @@ class ConnectionFactoryTest extends BaseTestCase
 
     public function testPostgresMakeCallsCreateConnection(): void
     {
-	    $pdo     = new PDOStub();
-	    $factory = new ConnectionFactoryStub(new Container());
+        $pdo     = new PDOStub();
+        $factory = new ConnectionFactoryStub(new Container());
         $conn = $factory->createConnection('pgsql', $pdo, 'database');
 
         $this->assertInstanceOf(PostgresConnection::class, $conn);
@@ -39,8 +39,8 @@ class ConnectionFactoryTest extends BaseTestCase
 
     public function testCreateConnectionDifferentDriver(): void
     {
-	    $pdo     = new PDOStub();
-	    $factory = new ConnectionFactoryStub(new Container());
+        $pdo     = new PDOStub();
+        $factory = new ConnectionFactoryStub(new Container());
         $conn    = $factory->createConnection('sqlite', $pdo, 'database');
 
         $this->assertInstanceOf(SQLiteConnection::class, $conn);
