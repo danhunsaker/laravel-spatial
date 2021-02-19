@@ -3,6 +3,7 @@
 namespace Tests\Unit\Eloquent;
 
 use GeoJson\Geometry\GeometryCollection;
+use GeoJson\Geometry\LinearRing;
 use GeoJson\Geometry\LineString;
 use GeoJson\Geometry\MultiLineString;
 use GeoJson\Geometry\MultiPoint;
@@ -10,13 +11,19 @@ use GeoJson\Geometry\MultiPolygon;
 use GeoJson\Geometry\Polygon;
 use GeoJson\Geometry\Point;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Expression;
 use LaravelSpatial\Eloquent\Builder;
 use LaravelSpatial\Eloquent\SpatialTrait;
 use LaravelSpatial\Exceptions\SpatialFieldsNotDefinedException;
 use LaravelSpatial\MysqlConnection;
 use Mockery;
+use PDO;
+use PDOStatement;
 use Tests\Unit\BaseTestCase;
+use Tests\Unit\Stubs\PDOStub;
 
 /**
  * Class SpatialTraitTest
@@ -97,7 +104,8 @@ class SpatialTraitTest extends BaseTestCase
 
         $this->assertFalse($this->model->exists);
 
-        $this->model->polygon = new Polygon([[$point1, $point2, $point3, $point4, $point1]]);
+        $ring1                = new LinearRing([$point1, $point2, $point3, $point4, $point1]);
+        $this->model->polygon = new Polygon([$ring1]);
         $this->model->save();
 
         $this->assertStringStartsWith('insert', $this->queries[0]);
@@ -105,7 +113,8 @@ class SpatialTraitTest extends BaseTestCase
         // TODO: assert bindings in query
         $this->assertTrue($this->model->exists);
 
-        $this->model->polygon = new Polygon([[$point1, $point2, $point3, $point4, $point1]]);
+	    $ring2                = new LinearRing([$point1, $point2, $point3, $point4, $point1]);
+        $this->model->polygon = new Polygon([$ring2]);
         $this->model->save();
         $this->assertStringStartsWith('update', $this->queries[1]);
         $this->assertStringContainsString("update `test_models` set `polygon` = ST_GeomFromText('POLYGON ((1 2, 2 3, 3 2, 2 1, 1 2))') where `id` = ?", $this->queries[1]);
@@ -172,8 +181,10 @@ class SpatialTraitTest extends BaseTestCase
         $point7 = new Point([6, 5]);
         $point8 = new Point([5, 4]);
 
-        $polygon1 = new Polygon([[$point1, $point2, $point3, $point4, $point1]]);
-        $polygon2 = new Polygon([[$point5, $point6, $point7, $point8, $point5]]);
+        $ring1    = new LinearRing([$point1, $point2, $point3, $point4, $point1]);
+        $polygon1 = new Polygon([$ring1]);
+        $ring2    = new LinearRing([$point5, $point6, $point7, $point8, $point5]);
+        $polygon2 = new Polygon([$ring2]);
 
         $this->assertFalse($this->model->exists);
 
@@ -368,8 +379,9 @@ class SpatialTraitTest extends BaseTestCase
         $point4 = new Point([2, 2]);
         $point5 = new Point([2, 2]);
         $point6 = new Point([1, 1]);
+        $ring   = new LinearRing([$point1, $point2, $point3, $point4, $point5, $point6]);
 
-        return new Polygon([[$point1, $point2, $point3, $point4, $point5, $point6]]);
+        return new Polygon([$ring]);
     }
 
     public function testScopeComparison(): void
@@ -530,12 +542,12 @@ class TestModel extends Model
         return new MysqlConnection(static::$pdo);
     }
 
-    public function testrelatedmodels(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function testrelatedmodels(): HasMany
     {
         return $this->hasMany(TestRelatedModel::class);
     }
 
-    public function testrelatedmodels2(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function testrelatedmodels2(): BelongsToMany
     {
         return $this->belongsToMany(TestRelatedModel::class);
     }
@@ -543,12 +555,12 @@ class TestModel extends Model
 
 class TestRelatedModel extends TestModel
 {
-    public function testmodel(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function testmodel(): BelongsTo
     {
         return $this->belongsTo(TestModel::class);
     }
 
-    public function testmodels(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function testmodels(): BelongsToMany
     {
         return $this->belongsToMany(TestModel::class);
     }
@@ -559,7 +571,7 @@ class TestNoSpatialModel extends Model
     use SpatialTrait;
 }
 
-class TestPDO extends \PDO
+class TestPDO extends PDOStub
 {
     public $queries = [];
 
@@ -569,7 +581,7 @@ class TestPDO extends \PDO
     {
         $this->queries[] = $statement;
 
-        $stmt = Mockery::mock(\PDOStatement::class);
+        $stmt = Mockery::mock(PDOStatement::class);
         $stmt->shouldReceive('bindValue')->zeroOrMoreTimes();
         $stmt->shouldReceive('execute');
         $stmt->shouldReceive('fetchAll')->andReturn([['id' => 1, 'point' => 'POINT(1 2)']]);

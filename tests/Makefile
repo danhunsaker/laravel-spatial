@@ -9,7 +9,7 @@ mDB_DIR=$(shell pwd)/_mdb-$(mV)
 pV=10
 pDB_DIR=$(shell pwd)/_pdb-$(pV)
 
-phpV=7.3
+phpV=7.4
 
 start_db_mysql:
 	@echo Starting MySQL $(oV)
@@ -76,7 +76,7 @@ __do_test:
 	@./wait_container spatial-mysql
 	@./wait_container spatial-postgres
 	@echo " Ready! Starting tests.\n"
-	@docker run -it --rm --name spatial-php -v "$(shell pwd)/..":/usr/src/app -w /usr/src/app \
+	@docker run -it --rm --name spatial-php-$(phpV) -v "$(shell pwd)/..":/usr/src/app -w /usr/src/app \
 		-e MYSQL_HOST=$(shell $(MAKE) -s get_ip_mysql) \
 		-e POSTGRES_HOST=$(shell $(MAKE) -s get_ip_postgres) \
-		spatial-php ./vendor/bin/phpunit --prepend .coverage-filter.php || true
+		spatial-php:$(phpV) ./vendor/bin/phpunit || true

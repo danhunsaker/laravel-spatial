@@ -14,7 +14,7 @@ use LaravelSpatial\Schema\Grammars\GrammarFactory;
  */
 class Geometry extends Type
 {
-    const GEOMETRY = 'geometry';
+    public const GEOMETRY = 'geometry';
 
     /**
      * @inheritDoc

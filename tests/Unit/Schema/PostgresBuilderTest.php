@@ -7,6 +7,7 @@ use LaravelSpatial\Schema\Blueprint;
 use LaravelSpatial\Schema\PostgresBuilder;
 use Mockery;
 use Tests\Unit\BaseTestCase;
+use Tests\Unit\Stubs\PostgresBuilderStub;
 
 /**
  * Class BuilderTest
@@ -20,9 +21,7 @@ class PostgresBuilderTest extends BaseTestCase
         $connection = Mockery::mock(PostgresConnection::class);
         $connection->shouldReceive('getSchemaGrammar')->once()->andReturn(null);
 
-        /** @var PostgresBuilder|\Mockery\MockInterface $mock */
-        $mock = Mockery::mock(PostgresBuilder::class, [$connection]);
-        $mock->makePartial()->shouldAllowMockingProtectedMethods();
+        $mock = new PostgresBuilderStub($connection);
         $blueprint = $mock->createBlueprint('test', function () {
         });
 

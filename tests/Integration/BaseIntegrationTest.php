@@ -3,7 +3,9 @@
 namespace Tests\Integration;
 
 use Closure;
+use Exception;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\QueryException;
 use LaravelSpatial\Exceptions\SpatialFieldsNotDefinedException;
 use LaravelSpatial\SpatialServiceProvider;
@@ -28,7 +30,7 @@ abstract class BaseIntegrationTest extends BaseTestCase
     /**
      * @var bool
      */
-    protected $is_postgres = false;
+    protected bool $is_postgres = false;
 
     /**
      * @var bool|int
@@ -56,7 +58,7 @@ abstract class BaseIntegrationTest extends BaseTestCase
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      */
-    abstract protected function setupDatabaseConfig($app): void;
+    abstract protected function setupDatabaseConfig(Application $app): void;
 
     /**
      * Check if mysql version is after bug fixes.
@@ -89,7 +91,7 @@ abstract class BaseIntegrationTest extends BaseTestCase
             $this->onMigrations(function ($migrationClass) {
                 (new $migrationClass())->down();
             }, true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $connection = $this->getConnection();
             $connection->getSchemaBuilder()->dropAllTables();
         }

@@ -22,8 +22,6 @@ Installation made super-easy with [composer](https://getcomposer.org):
 composer require danhunsaker/laravel-spatial
 ```
 
-If you're using a Laravel version before 5.5, also add the `LaravelSpatial\SpatialServiceProvider::class` to your `config/app.php`.
-
 ## Requirements
 
 Works with [PostgreSQL](https://www.postgresql.org) installed [PostGIS](http://postgis.net) extension and [MySQL](http://mysql.com) at least version 5.6.

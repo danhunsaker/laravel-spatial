@@ -2,6 +2,7 @@
 
 namespace Tests\Integration;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -14,7 +15,7 @@ class MysqlTest extends BaseIntegrationTest
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      */
-    protected function setupDatabaseConfig($app): void
+    protected function setupDatabaseConfig(Application $app): void
     {
         $host = env('MYSQL_HOST', env('DB_HOST', '127.0.0.1'));
 

@@ -2,6 +2,8 @@
 
 namespace Tests\Integration;
 
+use Illuminate\Contracts\Foundation\Application;
+
 /**
  * Class PostgresTest
  * @package Tests\Integration
@@ -11,14 +13,14 @@ class PostgresTest extends BaseIntegrationTest
     /**
      * @inheritDoc
      */
-    protected $is_postgres = true;
+    protected bool $is_postgres = true;
 
     /**
      * Setup database specific configuration.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      */
-    protected function setupDatabaseConfig($app): void
+    protected function setupDatabaseConfig(Application $app): void
     {
         $host = env('POSTGRES_HOST', env('DB_HOST', '127.0.0.1'));
 

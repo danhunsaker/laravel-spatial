@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Eloquent;
 
+use GeoJson\Geometry\LinearRing;
 use GeoJson\Geometry\Point;
 use GeoJson\Geometry\LineString;
 use GeoJson\Geometry\Polygon;
@@ -89,7 +90,8 @@ class BuilderTest extends BaseTestCase
 
     public function testUpdatePolygon(): void
     {
-        $polygon = new Polygon([[new Point([0, 0]), new Point([0, 1]), new Point([1, 1]), new Point([0, 0])]]);
+    	$ring    = new LinearRing([new Point([0, 0]), new Point([0, 1]), new Point([1, 1]), new Point([0, 0])]);
+        $polygon = new Polygon([$ring]);
 
         $this->queryBuilder
             ->shouldReceive('raw')

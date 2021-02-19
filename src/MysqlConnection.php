@@ -15,7 +15,7 @@ class MysqlConnection extends BaseMysqlConnection
 {
     /**
      * @inheritDoc
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
     {

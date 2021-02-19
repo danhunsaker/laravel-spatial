@@ -13,7 +13,7 @@ class ClassFinder
      *
      * @return array
      */
-    public function findClasses($directory)
+    public function findClasses(string $directory): array
     {
         $classes = [];
 
@@ -31,7 +31,7 @@ class ClassFinder
      *
      * @return string|null
      */
-    public function findClass($path)
+    public function findClass(string $path): ?string
     {
         $namespace = null;
 
@@ -44,6 +44,8 @@ class ClassFinder
                 return ltrim($namespace . '\\' . $this->getClass($key + 2, $tokens), '\\');
             }
         }
+
+        return null;
     }
 
     /**
@@ -52,9 +54,9 @@ class ClassFinder
      * @param int   $key
      * @param array $tokens
      *
-     * @return string
+     * @return string|null
      */
-    protected function getNamespace($key, array $tokens)
+    protected function getNamespace(int $key, array $tokens): ?string
     {
         $namespace = null;
 
@@ -63,10 +65,12 @@ class ClassFinder
         for ($i = $key; $i < $tokenCount; $i++) {
             if ($this->isPartOfNamespace($tokens[$i])) {
                 $namespace .= $tokens[$i][1];
-            } elseif ($tokens[$i] == ';') {
+            } elseif ($tokens[$i] === ';') {
                 return $namespace;
             }
         }
+
+	    return null;
     }
 
     /**
@@ -75,9 +79,9 @@ class ClassFinder
      * @param int   $key
      * @param array $tokens
      *
-     * @return string
+     * @return string|null
      */
-    protected function getClass($key, array $tokens)
+    protected function getClass(int $key, array $tokens): ?string
     {
         $class = null;
 
@@ -90,6 +94,8 @@ class ClassFinder
                 return $class;
             }
         }
+
+	    return null;
     }
 
     /**
@@ -99,9 +105,9 @@ class ClassFinder
      *
      * @return bool
      */
-    protected function tokenIsNamespace($token)
+    protected function tokenIsNamespace($token): bool
     {
-        return is_array($token) && $token[0] == T_NAMESPACE;
+        return is_array($token) && $token[0] === T_NAMESPACE;
     }
 
     /**
@@ -111,9 +117,9 @@ class ClassFinder
      *
      * @return bool
      */
-    protected function tokenIsClassOrInterface($token)
+    protected function tokenIsClassOrInterface($token): bool
     {
-        return is_array($token) && ($token[0] == T_CLASS || $token[0] == T_INTERFACE);
+        return is_array($token) && ($token[0] === T_CLASS || $token[0] === T_INTERFACE);
     }
 
     /**
@@ -123,9 +129,9 @@ class ClassFinder
      *
      * @return bool
      */
-    protected function isPartOfNamespace($token)
+    protected function isPartOfNamespace($token): bool
     {
-        return is_array($token) && ($token[0] == T_STRING || $token[0] == T_NS_SEPARATOR);
+        return is_array($token) && ($token[0] === T_STRING || $token[0] === T_NS_SEPARATOR);
     }
 
     /**
@@ -135,9 +141,9 @@ class ClassFinder
      *
      * @return bool
      */
-    protected function isPartOfClass($token)
+    protected function isPartOfClass($token): bool
     {
-        return is_array($token) && $token[0] == T_STRING;
+        return is_array($token) && $token[0] === T_STRING;
     }
 
     /**
@@ -147,8 +153,8 @@ class ClassFinder
      *
      * @return bool
      */
-    protected function isWhitespace($token)
+    protected function isWhitespace($token): bool
     {
-        return is_array($token) && $token[0] == T_WHITESPACE;
+        return is_array($token) && $token[0] === T_WHITESPACE;
     }
 }

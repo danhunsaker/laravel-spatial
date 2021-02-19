@@ -14,7 +14,7 @@ use LaravelSpatial\Schema\Grammars\GrammarFactory;
  */
 class Polygon extends Type
 {
-    const POLYGON = 'polygon';
+	public const POLYGON = 'polygon';
 
     /**
      * @inheritDoc

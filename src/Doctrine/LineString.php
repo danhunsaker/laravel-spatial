@@ -14,7 +14,7 @@ use LaravelSpatial\Schema\Grammars\GrammarFactory;
  */
 class LineString extends Type
 {
-    const LINESTRING = 'linestring';
+	public const LINESTRING = 'linestring';
 
     /**
      * @inheritDoc
